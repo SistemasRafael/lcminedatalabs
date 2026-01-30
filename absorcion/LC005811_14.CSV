@@ -1,0 +1,28 @@
+Sample ID,Analyte Name,Reported Conc (Samp)
+Comp. Cabeza Columna,Au 242.80,0.123
+Comp. Cola Columna,Au 242.80,0.004
+Barren,Au 242.80,0.02
+Cabeza puntual retorno,Au 242.80,0.123
+Columna #1,Au 242.80,0.094
+Columna #2,Au 242.80,0.045
+Columna #3,Au 242.80,0.025
+Columna #4,Au 242.80,0.019
+Columna #5,Au 242.80,0.003
+Celda # 11-A,Au 242.80,0.044
+Celda # 11-B,Au 242.80,0.019
+Celda # 11-C,Au 242.80,0.003
+Celda #5-9,Au 242.80,0.019
+Celda #(F1+F2),Au 242.80,0.129
+NE Tubo 1,Au 242.80,0.007
+NE Tubo 2,Au 242.80,0.094
+NE Tubo 4,Au 242.80,0.102
+NE Tubo 5,Au 242.80,0.035
+NE Tubo 6,Au 242.80,0.054
+NE Tubo 7,Au 242.80,0.129
+Puntual Noroeste,Au 242.80,0.132
+Tubo 3,Au 242.80,0.193
+Especial 1,Au 242.80,0.102
+Especial 2,Au 242.80,0.043
+Especial 3,Au 242.80,0.115
+Especial 4,Au 242.80,0.091
+Especial 5,Au 242.80,0.04

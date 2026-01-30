@@ -1,0 +1,17 @@
+"Analyst",""
+"Date Started","3/28/2023 11:00 AM  GMT: 3/28/2023 6:00 PM"
+"Worksheet","LC000003 Y 4-RE_24"
+"Comment",""
+"Methods","Au,Au"
+
+"Method: Au (Flame)"
+
+"3/28/2023","11:15:02 AM","PATRON",0.8917,"","mg/L"
+"3/28/2023","11:15:20 AM","BLANCO",0.0862,"","mg/L"
+"3/28/2023","11:15:28 AM","REAGENT BLANK",0.0000,"","mg/L"
+"3/28/2023","11:15:48 AM","LC000001-011",0.0094,"","mg/L"
+"3/28/2023","11:22:40 AM","PATRON",0.8972,"","mg/L"
+"3/28/2023","11:22:56 AM","BLANCO",0.0164,"","mg/L"
+"3/28/2023","11:23:06 AM","REAGENT BLANK",0.0000,"","mg/L"
+"Method: Au ALTA (Flame)"
+

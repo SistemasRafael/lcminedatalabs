@@ -1,0 +1,16 @@
+"Analyst",""
+"Date Started","10/18/2025 10:33 AM  GMT: 10/18/2025 5:33 PM"
+"Worksheet","LC005597-RE_24"
+"Comment",""
+"Methods","Au,Au"
+
+"Method: Au (Flame)"
+
+"10/18/2025","11:15:54 AM","PATRON",0.9106,"","mg/L",0.8
+"10/18/2025","11:16:08 AM","BLANCO",0.0097,"","mg/L",21.5
+"10/18/2025","11:16:18 AM","REAGENT BLANK",0.0000,"","mg/L",40.7
+"10/18/2025","11:16:30 AM","LC005590-021",0.0250,"","mg/L",2.1
+"10/18/2025","11:16:30 AM","PATRON","","","mg/L",""
+
+"Method: Au AU ALTO (Flame)"
+

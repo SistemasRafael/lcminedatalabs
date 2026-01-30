@@ -1,0 +1,17 @@
+"Analyst","CD"
+"Date Started","3/26/2025 12:58 AM  GMT: 3/26/2025 7:58 AM"
+"Worksheet","LC004087-RE_24"
+"Comment",""
+"Methods","Au,Au"
+
+"Method: Au (Flame)"
+
+"3/26/2025","1:08:26 AM","PATRON",0.8898,"","mg/L",0.6
+"3/26/2025","1:08:38 AM","BLANCO",0.0042,"","mg/L",31.2
+"3/26/2025","1:08:48 AM","REAGENT BLANK",0.0000,"","mg/L",39.6
+"3/26/2025","1:09:00 AM","LC004078-017",0.3858,"","mg/L",0.4
+"3/26/2025","1:09:14 AM","PATRON",0.8923,"","mg/L",0.5
+"3/26/2025","1:09:14 AM","BLANCO","","","mg/L",""
+
+"Method: Au AU ALTO (Flame)"
+

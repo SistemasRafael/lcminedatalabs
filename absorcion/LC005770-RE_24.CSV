@@ -1,0 +1,17 @@
+Analista,,,,,,
+Fecha de inicio,12/11/2025 01:02 a. m.  GMT: 12/11/2025 08:02 a. m.,,,,,
+Hoja de trabajo,LC005763_24,,,,,
+Comentario,,,,,,
+Métodos,"Au,Au",,,,,
+,,,,,,
+Método: Au (Llama),,,,,,
+,,,,,,
+12/11/2025,01:21:00 a. m.,PATRON,0.8851,,mg/L,1.3
+12/11/2025,01:21:14 a. m.,BLANCO,0.0031,,mg/L,66.5
+12/11/2025,01:21:22 a. m.,REAGENT BLANK,0,,mg/L,67.1
+12/11/2025,01:21:38 a. m.,LC005763-002,0.008,,mg/L,0.8
+12/11/2025,01:21:56 a. m.,PATRON,0.8989,,mg/L,0.9
+12/11/2025,01:22:24 a. m.,BLANCO,-0.0054,,mg/L,0.9
+12/11/2025,01:22:38 a. m.,REAGENT BLANK,0,,mg/L,0.7
+,,,,,,
+Método: Au AU ALTO (Llama),,,,,,

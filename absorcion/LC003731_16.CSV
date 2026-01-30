@@ -1,0 +1,42 @@
+Sample ID,Analyte Name,Reported Conc (Samp)
+BLK,Cu 324.75,-0.0122
+REAGENT BLANK,Cu 324.75,0
+QC,Cu 324.75,4.9876
+Comp. Cabeza Columna,Cu 324.75,4.4093
+Comp. Cola Columna,Cu 324.75,4.4077
+Barren,Cu 324.75,3.9494
+Cabeza puntual retorno,Cu 324.75,4.3536
+Celda # 11-A,Cu 324.75,0.7783
+Celda # 11-B,Cu 324.75,0.0888
+Celda # 11-C,Cu 324.75,2.3429
+Celda #5-9,Cu 324.75,3.501
+Celda #(F1+F2),Cu 324.75,4.8844
+NE Tubo 1,Cu 324.75,0.0586
+NE Tubo 2,Cu 324.75,0.0981
+QC,Cu 324.75,4.9557
+BLK,Cu 324.75,0.0021
+REAGENT BLANK,Cu 324.75,0
+NE Tubo 4,Cu 324.75,1.3937
+NE Tubo 5,Cu 324.75,11.4729
+NE Tubo 6,Cu 324.75,3.6846
+NE Tubo 7,Cu 324.75,14.3624
+Puntual Noroeste,Cu 324.75,5.0346
+Barren Patios,Cu 324.75,4.0541
+Tubo 3,Cu 324.75,4.627
+Especial 1,Cu 324.75,0.0855
+Especial 2,Cu 324.75,0.0542
+Especial 3,Cu 324.75,0.4058
+Especial 4,Cu 324.75,1.649
+Especial 5,Cu 324.75,2.4474
+BLK,Cu 324.75,-0.0317
+REAGENT BLANK,Cu 324.75,0
+Columna #1,Cu 324.75,4.446
+Columna #2,Cu 324.75,4.5212
+Columna #3,Cu 324.75,4.5128
+Columna #4,Cu 324.75,4.5237
+Columna #5,Cu 324.75,4.4873
+ESPECIAL 6,Cu 324.75,3.7743
+,,
+,,
+,,
+,,

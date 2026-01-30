@@ -1,0 +1,17 @@
+"Analista","JUDAS"
+"Fecha de inicio","9/13/2023 3:14 AM  GMT: 9/13/2023 10:14 AM"
+"Hoja de trabajo","LC001209-RE_24-ETI"
+"Comentario",""
+"Métodos","Au,Au"
+
+"Método: Au (Llama)"
+
+"9/13/2023","3:29:24 AM","PATRON",0.8864,"","mg/L"
+"9/13/2023","3:29:38 AM","BLANCO",0.0356,"","mg/L"
+"9/13/2023","3:29:48 AM","BLANCO REACTIVO REAG",0.0384,"","mg/L"
+"9/13/2023","3:31:10 AM","LC001207-001",0.0225,"","mg/L"
+"9/13/2023","3:31:30 AM","PATRON",0.8884,"","mg/L"
+"9/13/2023","3:31:32 AM","BLANCO","","","mg/L"
+
+"Método: Au AU ALTO (Llama)"
+

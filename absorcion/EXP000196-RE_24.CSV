@@ -1,0 +1,16 @@
+"Analista",""
+"Fecha de inicio","09/01/2026 01:08 a. m.  GMT: 09/01/2026 08:08 a. m."
+"Hoja de trabajo","EXP000196-RE_24"
+"Comentario",""
+"Métodos","Au,Au"
+
+"Método: Au (Llama)"
+
+"09/01/2026","01:20:46 a. m.","BLANCO",0.0040,"","mg/L",">100"
+"09/01/2026","01:21:46 a. m.","REAGENT BLANK",0.0000,"","mg/L",">100"
+"09/01/2026","01:22:08 a. m.","PATRON",0.9118,"","mg/L",0.2
+"09/01/2026","01:22:22 a. m.","EXP000192-013",0.1807,"","mg/L",1.1
+"09/01/2026","01:22:22 a. m.","PATRON","","","mg/L",""
+
+"Método: Au AU ALTO (Llama)"
+
