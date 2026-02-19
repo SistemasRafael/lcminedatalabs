@@ -15,7 +15,7 @@ if (isset($banco)){
                                      	  ban.unidad_id = ".$unidad_id."
                                           AND vol.banco_id = ".$banco."
                                           AND vol.voladura_id = ".$voladura
-                                    ) or die(mysqli_error());
+                                    ) or die(mysqli_error($mysqli));
   }      
 if ($resultado->num_rows > 0) {
     $idtop = 0;

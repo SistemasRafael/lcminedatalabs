@@ -1,8 +1,8 @@
-<? //include "../connections/config.php"; 
-$unidad_id = $_GET['unidad_id'];
-//$trn_id = $_GET['trn_id'];
-$_SESSION['unidad_id'] = $unidad_id;
-//echo $unidad_id;
+<?php //include "../connections/config.php"; 
+if (isset($_GET["unidad_id"])) {
+    $unidad_id = $_GET['unidad_id'];
+    $_SESSION['unidad_id'] = $unidad_id;
+}
 ?> 
 
 <script>
@@ -131,7 +131,7 @@ $_SESSION['unidad_id'] = $unidad_id;
           var name_metodo = "fila"+contador+'_';
           document.getElementById("tablaprueba").insertRow(-1).innerHTML = 
           '<td><select name="'+preorden+'" id="'+preorden+'" onchange=actualiza_sigfol('+contador+') class="form-control">' 
-                    <?$result = $mysqli->query("SELECT 0 AS trn_id_pre, 'Seleccione' AS preorden UNION ALL 
+                    <?php $result = $mysqli->query("SELECT 0 AS trn_id_pre, 'Seleccione' AS preorden UNION ALL 
                                                 SELECT pr.trn_id AS trn_id_pre, CONCAT(banco, LPAD(pr.voladura_id, 3,'0')) AS preorden
                                                     FROM arg_preordenes pr
                                                     	LEFT JOIN arg_bancos_voladuras bv
@@ -141,26 +141,26 @@ $_SESSION['unidad_id'] = $unidad_id;
                               while ( $row1 = $result ->fetch_array(MYSQLI_ASSOC)) {
                                     $preor = $row1['preorden'];                                
                     ?>       
-        +'<option value="<?echo $row1['trn_id_pre']?>"><?echo $preor?></option>'
-        <?}?>
+        +'<option value="<?php echo $row1['trn_id_pre']?>"><?php echo $preor?></option>'
+        <?php }?>
         +'</select></td>'
         +'<td><input type="number" name="'+sig_mues+'" id="'+sig_mues+'" disabled="1" class="form-control" /></td>'   
         +'<td><input type="number" name="'+name_cantidad+'" id="'+name_cantidad+'" onchange=calculatotal() class="form-control" /></td>'        
         +'<td><div class="[ form-group ]">' 
-            <? $datos_res = $mysqli->query("SELECT metodo_id, nombre FROM arg_metodos WHERE activo = 1 AND tipo_id = 1") or die(mysqli_error());
+            <?php  $datos_res = $mysqli->query("SELECT metodo_id, nombre FROM arg_metodos WHERE activo = 1 AND tipo_id = 1") or die(mysqli_error());
                 while ( $fila = $datos_res ->fetch_array(MYSQLI_ASSOC)) {
                     $metodo = $fila['metodo_id'];
                     $nombre = $fila['nombre'];
             ?>
-                    +'<input type="checkbox" name="'+name_metodo+'<?echo $metodo;?>" id="'+name_metodo+'<?echo $metodo;?>" autocomplete="off" />'
+                    +'<input type="checkbox" name="'+name_metodo+'<?php echo $metodo;?>" id="'+name_metodo+'<?php echo $metodo;?>" autocomplete="off" />'
                     +'<div class="[ btn-group col-sm-1 col-md-1 col-lg-1 col-xg-1 ]">'                                                            
-                        +'<label for="'+name_metodo+'<?echo $metodo;?>" class="[ btn btn-info align-left col-xs-10 col-sm-10 col-md-10 col-lg-10 ]">'
+                        +'<label for="'+name_metodo+'<?php echo $metodo;?>" class="[ btn btn-info align-left col-xs-10 col-sm-10 col-md-10 col-lg-10 ]">'
                         +'<span class="[ glyphicon glyphicon-ok ]"></span><span></span></label>'                                                    
-                        +'<label for="'+name_metodo+'<?echo $metodo;?>" class="[ btn btn-default active align-left col-xs-12 col-sm-12 col-md-12 col-lg-12 ]">'
-                        +'<?echo $nombre;?>'
+                        +'<label for="'+name_metodo+'<?php echo $metodo;?>" class="[ btn btn-default active align-left col-xs-12 col-sm-12 col-md-12 col-lg-12 ]">'
+                        +'<?php echo $nombre;?>'
                         +'</label>'                          
                     +'</div>'                                            
-                <?}?>                                        
+                <?php }?>                                        
         +'</div>'
         +'</td>';          
     } 
@@ -187,12 +187,12 @@ $_SESSION['unidad_id'] = $unidad_id;
     
 </script>
     <br/><br/>
-     <?  
+     <?php
         if(($_SESSION['LoggedIn']) <> '')
         {
             $user_fir       = $mysqli->query("SELECT nombre
                                         FROM `arg_usuarios`                                        
-                                        WHERE u_id = ".$_SESSION['u_id']) or die(mysqli_error());
+                                        WHERE u_id = ".$_SESSION['u_id']) or die(mysqli_error($mysqli));
             $user_firmado   = $user_fir ->fetch_array(MYSQLI_ASSOC);
             $nombre_usuario = $user_firmado['nombre'];
             
@@ -205,7 +205,7 @@ $_SESSION['unidad_id'] = $unidad_id;
                 
                          
                     ?>                             
-                    <form method="post" action="app.php?unidad_id=<?echo $unidad_id;?>" name="Visitaform" id="Visitaform">  
+                    <form method="post" action="app.php?unidad_id=<?php echo $unidad_id;?>" name="Visitaform" id="Visitaform">  
                     <fieldset>                       
                             <div class="col-md-12 col-lg-12 bg-info text-black text-center">
                                 <br />
@@ -216,20 +216,20 @@ $_SESSION['unidad_id'] = $unidad_id;
                             <div class="col-md-11 col-lg-11">
                                                     
                                     <div class="col-md-1 col-lg-1">               
-                                        <h5><?echo 'Fecha:'?></h5>
+                                        <h5><?php echo 'Fecha:'?></h5>
                                     </div>
                                     <div class="col-md-2 col-lg-2">
                                          <input type="date" name="fecha" class="form-control" id="fecha" value="<?php echo date("Y-m-d");?>"/>
                                     </div>                                
                                     <div class="col-md-1 col-lg-1">
-                                         <h5><?echo 'Hora:'?></h5>
+                                         <h5><?php echo 'Hora:'?></h5>
                                     </div>                                
                                     <div class='col-sm-2'>
                                          <input type="hora" name="hora_sel" class="form-control" id="hora_sel" value=""/>                                         
                                       </div>                                      
                               
                               <div class="col-md-2 col-lg-2">                                
-                                        <?                           
+                                        <?php                            
                                         $unidad_id = $_GET['unidad_id'];
                                         if ($unidad_id == ""){
                                             $nombretop = "Seleccione Mina";
@@ -281,8 +281,8 @@ $_SESSION['unidad_id'] = $unidad_id;
                                   <tbody>
                                    <div class="col-md-1 col-lg-1">
                                     <td>                                
-                                        <?                           
-                                        $preord = $_GET['preorden'];
+                                        <?php                            
+                                        $preord = $_GET['preorden'] ?? "";
                                         if ($preord == ""){
                                             $nombretop = "Seleccione";
                                             $nomtop = 0;
@@ -293,10 +293,10 @@ $_SESSION['unidad_id'] = $unidad_id;
                                         $result = $mysqli->query("SELECT pr.trn_id, CONCAT(banco, LPAD(pr.voladura_id, 3,'0')) AS preorden
                                                                   FROM 
                                                                     arg_preordenes pr
-                                       	                            LEFT JOIN arg_bancos_voladuras bv
+                                       	                            INNER JOIN arg_bancos_voladuras bv
                                                                     	ON pr.banco_id = bv.banco_id
                                                                         AND pr.voladura_id = bv.voladura_id
-                                                                         WHERE unidad_id = ".$unidad_id) or die(mysqli_error());
+                                                                         WHERE unidad_id = ".$unidad_id) or die(mysqli_error($mysqli));
                                         while( $row = $result ->fetch_array(MYSQLI_ASSOC))                                       
                                           {
                                               $nombre =($row["preorden"]);
@@ -310,7 +310,7 @@ $_SESSION['unidad_id'] = $unidad_id;
                                   
                                   <!--<div class="col-md-1 col-lg-1">
                                     <td>                                
-                                        <?                           
+                                        <?php                            
                                         $organizaciontop = $_GET['bancos'];
                                         if ($organizaciontop == ""){
                                             $nombretop = "SeleccioneQ";
@@ -319,7 +319,7 @@ $_SESSION['unidad_id'] = $unidad_id;
                                         echo ("<form name=\"banco1\"  id=\"banco1\">");                                   
                                         echo ("<select name=\"banco1\" id=\"banco1\" onchange=actualiza_vol(1)  class=\"form-control\" > ");        
                                         echo ("<option value=$nomtop>$nombretop</option>");
-                                        $result = $mysqli->query("SELECT banco_id, banco FROM arg_bancos WHERE unidad_id = ".$unidad_id) or die(mysqli_error());
+                                        $result = $mysqli->query("SELECT banco_id, banco FROM arg_bancos WHERE unidad_id = ".$unidad_id) or die(mysqli_error($mysqli));
                                         while( $row = $result ->fetch_array(MYSQLI_ASSOC))                                       
                                           {
                                               $nombre =($row["banco"]);
@@ -332,7 +332,7 @@ $_SESSION['unidad_id'] = $unidad_id;
                                     </div>
                                     <div class="col-md-1 col-lg-1">
                                     <td>
-                                        <?
+                                        <?php 
                                         $organizaciontop = $_GET['bancos'];
                                         if ($organizaciontop == "")
                                         $nombretop = "Seleccione";                                  
@@ -361,20 +361,20 @@ $_SESSION['unidad_id'] = $unidad_id;
                                      
                                      </div>                               
                                      <td>
-                                         <? $datos_res = $mysqli->query("SELECT metodo_id, nombre FROM arg_metodos WHERE activo = 1 AND tipo_id = 1 ORDER BY nombre") or die(mysqli_error());?>
+                                         <?php  $datos_res = $mysqli->query("SELECT metodo_id, nombre FROM arg_metodos WHERE activo = 1 AND tipo_id = 1 ORDER BY nombre") or die(mysqli_error($mysqli));?>
                                          <div class="[ form-group ] ">   
-                                            <?while ($fila = $datos_res->fetch_assoc()) {?>
-                                                    <input type="checkbox" name="<?echo 'fila1_'.$fila['metodo_id']?>" id="<?echo 'fila1_'.$fila['metodo_id']?>" autocomplete="off" />
+                                            <?php while ($fila = $datos_res->fetch_assoc()) {?>
+                                                    <input type="checkbox" name="<?php echo 'fila1_'.$fila['metodo_id']?>" id="<?php echo 'fila1_'.$fila['metodo_id']?>" autocomplete="off" />
                                                     <div class="[ btn-group ]">                                                                
-                                                        <label for="<?echo 'fila1_'.$fila['metodo_id']?>" class="[ btn btn-info ]">
+                                                        <label for="<?php echo 'fila1_'.$fila['metodo_id']?>" class="[ btn btn-info ]">
                                                             <span class="[ glyphicon glyphicon-ok ]"></span>                            
                                                             <span></span>
                                                         </label>                                                    
-                                                        <label for="<?echo 'fila1_'.$fila['metodo_id']?>" class="[ btn btn-default active ]">
-                                                            <?echo $fila['nombre']?>
+                                                        <label for="<?php echo 'fila1_'.$fila['metodo_id']?>" class="[ btn btn-default active ]">
+                                                            <?php echo $fila['nombre']?>
                                                         </label>                              
                                                     </div>                                            
-                                            <?}?>                                        
+                                            <?php }?>                                        
                                          </div>   
                                      </td>
                                   </tbody>
@@ -426,13 +426,13 @@ $_SESSION['unidad_id'] = $unidad_id;
                     </div>
                   </div>
                 </div>
-       <?
+       <?php 
        
                 //Click en Generar Orden
                 if (isset($_POST['generar_orden'])){
                     $caracter_mina  = $mysqli->query("SELECT caracter_folio, nombre, serie
                                                       FROM `arg_empr_unidades`                                        
-                                                        WHERE unidad_id = ".$unidad_id) or die(mysqli_error());
+                                                        WHERE unidad_id = ".$unidad_id) or die(mysqli_error($mysqli));
                    $caracter_fol   = $caracter_mina ->fetch_array(MYSQLI_ASSOC);
                    $caracter_folio = $caracter_fol['caracter_folio'];
                    $serie_mina = $caracter_fol['serie'];
@@ -482,12 +482,12 @@ $_SESSION['unidad_id'] = $unidad_id;
                                 }          
                          else{
                             if ($i == 1){
-                                 $max_trn_id = $mysqli->query("SELECT ifnull(MAX(trn_id), 0) AS trn_id FROM arg_ordenes") or die(mysqli_error());
+                                 $max_trn_id = $mysqli->query("SELECT ifnull(MAX(trn_id), 0) AS trn_id FROM arg_ordenes") or die(mysqli_error($mysqli));
                                  $ma_trn_id = $max_trn_id ->fetch_array(MYSQLI_ASSOC);
                                  $trn_id = $ma_trn_id['trn_id'];
                                  $trn_id = $trn_id + 1;
                                          
-                                 $max_fol = $mysqli->query("SELECT ifnull(MAX(folio), 0) AS folio FROM arg_ordenes WHERE unidad_id = ".$unidad_id) or die(mysqli_error());
+                                 $max_fol = $mysqli->query("SELECT ifnull(MAX(folio), 0) AS folio FROM arg_ordenes WHERE unidad_id = ".$unidad_id) or die(mysqli_error($mysqli));
                                  $max_foli = $max_fol ->fetch_array(MYSQLI_ASSOC);
                                  $max_folio = $max_foli['folio'];
                                  $folio_orden = $max_folio + 1;
@@ -504,7 +504,7 @@ $_SESSION['unidad_id'] = $unidad_id;
                                                            LEFT JOIN arg_bancos_voladuras bv
                                                                 ON pr.banco_id = bv.banco_id
                                                                 AND pr.voladura_id = bv.voladura_id
-                                                           WHERE pr.trn_id = ".$preorden) or die(mysqli_error());
+                                                           WHERE pr.trn_id = ".$preorden) or die(mysqli_error($mysqli));
                              $max_cons_id = $max_con_id ->fetch_array(MYSQLI_ASSOC);
                              $folio_actual = $max_cons_id['folio_actual'];
                              $folio_actual_sig = $folio_actual+1;
@@ -519,13 +519,13 @@ $_SESSION['unidad_id'] = $unidad_id;
                              //echo $query;
                              
                               //MUESTRAS METODOS   
-                              $max_trn_id_met = $mysqli->query("SELECT IFNULL(MAX(trn_id), 0) AS trn_id FROM arg_ordenes_metodos ") or die(mysqli_error());
+                              $max_trn_id_met = $mysqli->query("SELECT IFNULL(MAX(trn_id), 0) AS trn_id FROM arg_ordenes_metodos ") or die(mysqli_error($mysqli));
                               $ma_trn_id_m = $max_trn_id_met ->fetch_array(MYSQLI_ASSOC);
                               $trn_id_met = $ma_trn_id_m['trn_id'];
                               $trn_id_met = $trn_id_met +1;                                  
                               
                               //Validamos el total de muestras de los métodos seleccionados
-                              $max_muestras_metodo = $mysqli->query("SELECT maximo_muestras FROM arg_empr_unidades WHERE unidad_id = ".$unidad_id) or die(mysqli_error());
+                              $max_muestras_metodo = $mysqli->query("SELECT maximo_muestras FROM arg_empr_unidades WHERE unidad_id = ".$unidad_id) or die(mysqli_error($mysqli));
                               $max_muestras  = $max_muestras_metodo ->fetch_array(MYSQLI_ASSOC);
                               $max_muest_ord = $max_muestras['maximo_muestras'];
                                                                                     
@@ -545,7 +545,7 @@ $_SESSION['unidad_id'] = $unidad_id;
                                     while ($j <= $total_ordenes){
                                         
                                          //Ordenes_detalle
-                                         $max_trn_det = $mysqli->query("SELECT MAX(trn_id) AS trn_id FROM arg_ordenes_detalle") or die(mysqli_error());
+                                         $max_trn_det = $mysqli->query("SELECT MAX(trn_id) AS trn_id FROM arg_ordenes_detalle") or die(mysqli_error($mysqli));
                                          $max_trn = $max_trn_det ->fetch_array(MYSQLI_ASSOC);
                                          $tr_id_det = $max_trn['trn_id'];
                                          $tr_id_det = $tr_id_det + 1;
@@ -555,7 +555,7 @@ $_SESSION['unidad_id'] = $unidad_id;
                                                                             LEFT JOIN arg_ordenes AS o
                                                                             	ON od.trn_id_rel = o.trn_id
                                                                           WHERE
-                                                                        	o.unidad_id = ".$unidad_id) or die(mysqli_error());
+                                                                        	o.unidad_id = ".$unidad_id) or die(mysqli_error($mysqli));
                                          $max_fol = $max_folio_det ->fetch_array(MYSQLI_ASSOC);
                                          $folio_det = $max_fol['folio_ord'];
                                          $folio_det = $folio_det + 1;
@@ -625,7 +625,7 @@ $_SESSION['unidad_id'] = $unidad_id;
                                                   "VALUES ($tr_id_det, $trn_id, $banco_sel, $voladura_sel, $cant_bloque_muestras, '$folio_inicial','$folio_final',$folio_det , '$folio_interno', 0, $u_id)";
                                          $mysqli->query($query) ;
                                          //echo $query;
-                                         $max_mue_id = $mysqli->query("SELECT IFNULL(MAX(trn_id), 0) AS trn_id_mue FROM arg_ordenes_muestras") or die(mysqli_error());
+                                         $max_mue_id = $mysqli->query("SELECT IFNULL(MAX(trn_id), 0) AS trn_id_mue FROM arg_ordenes_muestras") or die(mysqli_error($mysqli));
                                          $max_mues_id = $max_mue_id ->fetch_array(MYSQLI_ASSOC);
                                          $trn_id_mue = $max_mues_id['trn_id_mue'];
                                          $trn_id_mue = $trn_id_mue +1;
@@ -662,7 +662,7 @@ $_SESSION['unidad_id'] = $unidad_id;
                                              }  
                                                 $j++;
                                 
-                                $metodos_validar = $mysqli->query("SELECT metodo_id FROM arg_metodos WHERE activo = 1 AND tipo_id = 1") or die(mysqli_error());
+                                $metodos_validar = $mysqli->query("SELECT metodo_id FROM arg_metodos WHERE activo = 1 AND tipo_id = 1") or die(mysqli_error($mysqli));
                                 while ($metodos = $metodos_validar->fetch_assoc()) {
                                         $metodo_id = $metodos['metodo_id'];
                                         $fila1 = 'fila'.$pos.'_'.$metodo_id;
@@ -690,4 +690,3 @@ $_SESSION['unidad_id'] = $unidad_id;
 }?>           
 <br /> <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 <script type="text/javascript" src="js/jquery.min.js"></script>
- 

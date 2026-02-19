@@ -1,4 +1,4 @@
-<?include "connections/config.php";?>
+<?php include "connections/config.php";?>
 <?php
 //$html = '';
 $u_id        = $_SESSION['u_id'];
@@ -8,7 +8,7 @@ $voladura_id = $_POST['voladura_id'];
 $folio_ini = $_POST['folio_ini'];
 $folio_act = $_POST['folio_act'];
 
-    $max_banco_id = $mysqli->query("SELECT banco FROM arg_bancos WHERE banco_id = ".$banco_id) or die(mysqli_error());
+    $max_banco_id = $mysqli->query("SELECT banco FROM arg_bancos WHERE banco_id = ".$banco_id) or die(mysqli_error($mysqli));
     $max_ban = $max_banco_id ->fetch_array(MYSQLI_ASSOC);
     $banco = $max_ban['banco'];
     
@@ -20,7 +20,7 @@ if (isset($banco_id)){
                                             LEFT JOIN arg_bancos ban
                                             	ON bvo.banco_id = ban.banco_id
                                         WHERE 
-                                            bvo.banco_id = ".$banco_id." AND ban.unidad_id = ".$unidad_id." AND bvo.voladura_id = ".$voladura_id) or die(mysqli_error());
+                                            bvo.banco_id = ".$banco_id." AND ban.unidad_id = ".$unidad_id." AND bvo.voladura_id = ".$voladura_id) or die(mysqli_error($mysqli));
         $vol_dup = $validar_dupl ->fetch_array(MYSQLI_ASSOC);   
         $vol_duplicado = $vol_dup['voladura'];
           
@@ -34,11 +34,11 @@ if (isset($banco_id)){
                                                         	 banco
                                                           FROM 
                                                             arg_bancos_voladuras
-                                                          WHERE banco_id = ".$banco_id." AND voladura_id = ".$voladura_id) or die(mysqli_error());
+                                                          WHERE banco_id = ".$banco_id." AND voladura_id = ".$voladura_id) or die(mysqli_error($mysqli));
                                                           
                                                           //echo $query;
             if ($resultado->num_rows > 0) {
-                $html = 'Se registró exitosamente.';
+                $html = 'Se registrï¿½ exitosamente.';
             }
             else{
                 $html = 'Hubo un error, reintente por favor.';
@@ -59,7 +59,7 @@ if (isset($banco_id)){
     $fecha_reserva_final = $datos_in['fecha_inicial'];
     $ubicacion = $datos_in['nombre'];
     $username = $datos_in['username'];
-    $html = 'Se realizó su reservación del día '.date("Y-m-d", strtotime($fecha_reserva)).' al '.date("Y-m-d", strtotime($fecha_reserva_final));
+    $html = 'Se realizï¿½ su reservaciï¿½n del dï¿½a '.date("Y-m-d", strtotime($fecha_reserva)).' al '.date("Y-m-d", strtotime($fecha_reserva_final));
     //$office_correo = 'asseneth.soto@argonautgold.com';
     $copy = 'danira.romero@argonautgold.com';
     
@@ -73,9 +73,9 @@ if (isset($banco_id)){
                     $mail->AddBCC("".$copy.""); 
             
     				$mail->ContentType = "text/html";
-    				$body = "Usted ha reservado con el usuario ".$username." la ubicación <strong>".$ubicacion."</strong> desde el día <strong>".$fecha_reserva." </strong> hasta el día  <strong>".date("Y-m-d", strtotime($fecha_reserva_final))."</strong><br><br>";
-    				$body .= "La ubicación contiene las siguientes herramientas:"."<br>".$herramienta;
-                    $body .= "<br>Para realizar una nueva reservación ingrese a:<br>";    
+    				$body = "Usted ha reservado con el usuario ".$username." la ubicaciï¿½n <strong>".$ubicacion."</strong> desde el dï¿½a <strong>".$fecha_reserva." </strong> hasta el dï¿½a  <strong>".date("Y-m-d", strtotime($fecha_reserva_final))."</strong><br><br>";
+    				$body .= "La ubicaciï¿½n contiene las siguientes herramientas:"."<br>".$herramienta;
+                    $body .= "<br>Para realizar una nueva reservaciï¿½n ingrese a:<br>";    
                     $body .= "http://192.168.20.22/intranet-spa/calendario_reservas.php<br><br>";			
                     $body .= "Atte: Argonaut Gold INC";
                     $body = utf8_encode($body);
