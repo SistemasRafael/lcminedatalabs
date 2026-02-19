@@ -1,4 +1,4 @@
-<? include "connections/config.php";
+<?php include "connections/config.php";
 require_once 'vendors/dompdf/autoload.inc.php';
 
 use Dompdf\Dompdf;

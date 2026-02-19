@@ -137,7 +137,7 @@ if (isset($_GET["unidad_id"])) {
                                                     	LEFT JOIN arg_bancos_voladuras bv
                                                         	ON pr.banco_id = bv.banco_id
                                                             AND pr.voladura_id = bv.voladura_id 
-                                                WHERE unidad_id = ".$_SESSION['unidad_id']) or die(mysqli_error());                             
+                                                WHERE unidad_id = ".$_SESSION['unidad_id']) or die(mysqli_error($mysqli));                             
                               while ( $row1 = $result ->fetch_array(MYSQLI_ASSOC)) {
                                     $preor = $row1['preorden'];                                
                     ?>       
@@ -147,7 +147,7 @@ if (isset($_GET["unidad_id"])) {
         +'<td><input type="number" name="'+sig_mues+'" id="'+sig_mues+'" disabled="1" class="form-control" /></td>'   
         +'<td><input type="number" name="'+name_cantidad+'" id="'+name_cantidad+'" onchange=calculatotal() class="form-control" /></td>'        
         +'<td><div class="[ form-group ]">' 
-            <?php  $datos_res = $mysqli->query("SELECT metodo_id, nombre FROM arg_metodos WHERE activo = 1 AND tipo_id = 1") or die(mysqli_error());
+            <?php  $datos_res = $mysqli->query("SELECT metodo_id, nombre FROM arg_metodos WHERE activo = 1 AND tipo_id = 1") or die(mysqli_error($mysqli));
                 while ( $fila = $datos_res ->fetch_array(MYSQLI_ASSOC)) {
                     $metodo = $fila['metodo_id'];
                     $nombre = $fila['nombre'];
@@ -236,7 +236,7 @@ if (isset($_GET["unidad_id"])) {
                                         }
                                         else{
                                             $nomtop = $unidad_id;
-                                            $result = $mysqli->query("SELECT unidad_id, Nombre FROM arg_empr_unidades WHERE unidad_id = ".$unidad_id) or die(mysqli_error());
+                                            $result = $mysqli->query("SELECT unidad_id, Nombre FROM arg_empr_unidades WHERE unidad_id = ".$unidad_id) or die(mysqli_error($mysqli));
                                                 while( $row = $result ->fetch_array(MYSQLI_ASSOC)){
                                                    $nombretop = $row['Nombre']; 
                                                 }
@@ -244,7 +244,7 @@ if (isset($_GET["unidad_id"])) {
                                         echo ("<form name=\"Busqueda\" id=\"Busqueda\">");                                   
                                         echo ("<select name=\"mina_seleccionada\" id=\"mina_seleccionada\" disabled class=\"form-control\" > ");        
                                         echo ("<option value=$nomtop>$nombretop</option>");
-                                        $result = $mysqli->query("SELECT unidad_id, Nombre FROM arg_empr_unidades") or die(mysqli_error());
+                                        $result = $mysqli->query("SELECT unidad_id, Nombre FROM arg_empr_unidades") or die(mysqli_error($mysqli));
                                         while( $row = $result ->fetch_array(MYSQLI_ASSOC))                                      
                                           {
                                               $nombre =($row["Nombre"]);
@@ -262,7 +262,6 @@ if (isset($_GET["unidad_id"])) {
                                 </div>
                         </div>
                             
-                        <!--Primer Row-->
                         <br /><br /><br />
                         
                             <div class="row">    
@@ -271,8 +270,6 @@ if (isset($_GET["unidad_id"])) {
                                   <thead class="thead-light" align='center'>
                                     <tr>
                                       <th colspan='1'>PRE-ORDEN</th>
-                                      <!--<th colspan='1'>Banco</th>
-                                      <th colspan='1'>Voladura</th>--!>
                                       <th colspan='1'>Siguiente Muestra</th>
                                       <th colspan='1'>Cantidad</th>
                                       <th colspan='1'>Métodos</th>
@@ -308,49 +305,7 @@ if (isset($_GET["unidad_id"])) {
                                     </td>
                                     </div>
                                   
-                                  <!--<div class="col-md-1 col-lg-1">
-                                    <td>                                
-                                        <?php                            
-                                        $organizaciontop = $_GET['bancos'];
-                                        if ($organizaciontop == ""){
-                                            $nombretop = "SeleccioneQ";
-                                            $nomtop = 0;
-                                        }                                  
-                                        echo ("<form name=\"banco1\"  id=\"banco1\">");                                   
-                                        echo ("<select name=\"banco1\" id=\"banco1\" onchange=actualiza_vol(1)  class=\"form-control\" > ");        
-                                        echo ("<option value=$nomtop>$nombretop</option>");
-                                        $result = $mysqli->query("SELECT banco_id, banco FROM arg_bancos WHERE unidad_id = ".$unidad_id) or die(mysqli_error($mysqli));
-                                        while( $row = $result ->fetch_array(MYSQLI_ASSOC))                                       
-                                          {
-                                              $nombre =($row["banco"]);
-                                              $nomenclatura = $row["banco_id"];                                          
-                                              echo ("<option value=$nomenclatura>$nombre</option>");
-                                          }          
-                                        echo ("</select>");
-                                       ?>
-                                    </td>
-                                    </div>
-                                    <div class="col-md-1 col-lg-1">
-                                    <td>
-                                        <?php 
-                                        $organizaciontop = $_GET['bancos'];
-                                        if ($organizaciontop == "")
-                                        $nombretop = "Seleccione";                                  
-                                        echo ("<form name=\"voladura1\" id=\"voladura1\">");                                   
-                                        echo ("<select name=\"voladura1\" id=\"voladura1\" class=\"form-control\" > ");        
-                                        echo ("<option value=$nomtop>$nombretop</option>");
-                                        $result = $mysqli->query("SELECT voladura_id FROM arg_bancos_voladuras") or die(mysqli_error());
-                                        while( $row = $result ->fetch_array(MYSQLI_ASSOC))                                       
-                                          {
-                                              $nombre =($row["voladura_id"]);
-                                              $nomenclatura = $row["voladura_id"];
-                                              
-                                              echo ("<option value=$nomenclatura>$nombre</option>");
-                                              }          
-                                        echo ("</select>");                                      
-                                        ?>
-                                     </td>
-                                     </div>--!>
+                                 
                                      <div class="col-md-1 col-lg-1">
                                      <td>
                                              <input type="text" name="siguiente_muestra1" id="siguiente_muestra1" disabled="" class="form-control" /> 
@@ -440,7 +395,7 @@ if (isset($_GET["unidad_id"])) {
                   
                      $fecha             = $_POST['fecha'];
                      $hora              = $_POST['hora_sel'];
-                     $mina_seleccionada = $_POST['mina_seleccionada'];
+                     //$mina_seleccionada = $_POST['mina_seleccionada'];
                      $u_id              = $_SESSION['u_id'];
                      
                      $i   = 1;
@@ -448,39 +403,39 @@ if (isset($_GET["unidad_id"])) {
                      $pos = 1;
                      while($i <> 0){ 
                         $preorden_sel = "preorden".$pos;
-                        $preorden = $_POST[$preorden_sel];
                         $cantidad = 'cantidad_muestras'.$pos;
-                        $cantidad_sel = $_POST[$cantidad];
+
+                        $preorden = $_POST[$preorden_sel] ?? 0;
+                        $cantidad_sel = $_POST[$cantidad] ?? '';
                         
                         //Métodos
                         $val_met = 0;
-                        $metodos_validar = $mysqli->query("SELECT metodo_id FROM arg_metodos WHERE activo = 1") or die(mysqli_error());
-                            while ($metodos = $metodos_validar->fetch_assoc()) {
-                                $metodo_id = $metodos['metodo_id'];
-                                $fila1 = 'fila'.$pos.'_'.$metodo_id;
-                                $metodo_sel = $_POST[$fila1];
-                                if ($metodo_sel == 'on'){
-                                    $val_met = 1;
-                                }
+                        $metodos_validar = $mysqli->query("SELECT metodo_id FROM arg_metodos WHERE activo = 1") or die(mysqli_error($mysqli));
+                        while ($metodos = $metodos_validar->fetch_assoc()) {
+                            $metodo_id = $metodos['metodo_id'];
+                            $fila1 = 'fila'.$pos.'_'.$metodo_id;
+                            $metodo_sel = $_POST[$fila1] ?? "";
+                            if ($metodo_sel == 'on'){
+                                $val_met = 1;
                             }
+                        }
                         
                         if ($preorden == 0 and $cantidad_sel == '' and $val_met == 0){
-                                $i = 0;
-                            }
+                            $i = 0;
+                        }
                         elseif ($val_met == 0){                            
-                                    echo "<script>";
-                                    echo "verificar_seleccion(4)";
-                                    echo "</script>";
-                                    $i = 0;      
-                                }
-                       
+                            echo "<script>";
+                            echo "verificar_seleccion(4)";
+                            echo "</script>";
+                            $i = 0;      
+                        }
                         elseif ($preorden == 0 || $cantidad_sel == ''){
-                                    echo "<script>";
-                                    echo "verificar_seleccion(1)";
-                                    echo "</script>";
-                                    $i = 0;      
-                                }          
-                         else{
+                            echo "<script>";
+                            echo "verificar_seleccion(1)";
+                            echo "</script>";
+                            $i = 0;      
+                        }          
+                        else {
                             if ($i == 1){
                                  $max_trn_id = $mysqli->query("SELECT ifnull(MAX(trn_id), 0) AS trn_id FROM arg_ordenes") or die(mysqli_error($mysqli));
                                  $ma_trn_id = $max_trn_id ->fetch_array(MYSQLI_ASSOC);
@@ -497,189 +452,189 @@ if (isset($_GET["unidad_id"])) {
                                           "VALUES ($trn_id, 0, $folio_orden, '$hora', '$fecha', '', $unidad_id, $u_id, 1, 1, '')";
                                  $mysqli->query($query) ;
                                  //echo $query;
-                         }
-                             //PREORDEN BANCO Y VOLADURA                                 
-                             $max_con_id = $mysqli->query("SELECT bv.folio_actual, bv.banco, pr.banco_id, pr.voladura_id
-                                                           FROM arg_preordenes pr
-                                                           LEFT JOIN arg_bancos_voladuras bv
-                                                                ON pr.banco_id = bv.banco_id
-                                                                AND pr.voladura_id = bv.voladura_id
-                                                           WHERE pr.trn_id = ".$preorden) or die(mysqli_error($mysqli));
-                             $max_cons_id = $max_con_id ->fetch_array(MYSQLI_ASSOC);
-                             $folio_actual = $max_cons_id['folio_actual'];
-                             $folio_actual_sig = $folio_actual+1;
-                             $folio_actual_fin  = $folio_actual+$cantidad_sel; 
-                             
-                             $banco = $max_cons_id['banco'];    
-                             $banco_sel = $max_cons_id['banco_id'];       
-                             $voladura_sel = $max_cons_id['voladura_id']; 
-                             
-                             $query = "UPDATE arg_bancos_voladuras SET folio_actual = ".$folio_actual_fin." WHERE banco_id = ".$banco_sel." AND voladura_id = ".$voladura_sel;
-                             $mysqli->query($query);
-                             //echo $query;
-                             
-                              //MUESTRAS METODOS   
-                              $max_trn_id_met = $mysqli->query("SELECT IFNULL(MAX(trn_id), 0) AS trn_id FROM arg_ordenes_metodos ") or die(mysqli_error($mysqli));
-                              $ma_trn_id_m = $max_trn_id_met ->fetch_array(MYSQLI_ASSOC);
-                              $trn_id_met = $ma_trn_id_m['trn_id'];
-                              $trn_id_met = $trn_id_met +1;                                  
-                              
-                              //Validamos el total de muestras de los métodos seleccionados
-                              $max_muestras_metodo = $mysqli->query("SELECT maximo_muestras FROM arg_empr_unidades WHERE unidad_id = ".$unidad_id) or die(mysqli_error($mysqli));
-                              $max_muestras  = $max_muestras_metodo ->fetch_array(MYSQLI_ASSOC);
-                              $max_muest_ord = $max_muestras['maximo_muestras'];
+                            }
+                            //PREORDEN BANCO Y VOLADURA                                 
+                            $max_con_id = $mysqli->query("SELECT bv.folio_actual, bv.banco, pr.banco_id, pr.voladura_id
+                                                        FROM arg_preordenes pr
+                                                        LEFT JOIN arg_bancos_voladuras bv
+                                                            ON pr.banco_id = bv.banco_id
+                                                            AND pr.voladura_id = bv.voladura_id
+                                                        WHERE pr.trn_id = ".$preorden) or die(mysqli_error($mysqli));
+                            $max_cons_id = $max_con_id ->fetch_array(MYSQLI_ASSOC);
+                            $folio_actual = $max_cons_id['folio_actual'];
+                            $folio_actual_sig = $folio_actual+1;
+                            $folio_actual_fin  = $folio_actual+$cantidad_sel; 
+                            
+                            $banco = $max_cons_id['banco'];    
+                            $banco_sel = $max_cons_id['banco_id'];       
+                            $voladura_sel = $max_cons_id['voladura_id']; 
+                            
+                            $query = "UPDATE arg_bancos_voladuras SET folio_actual = ".$folio_actual_fin." WHERE banco_id = ".$banco_sel." AND voladura_id = ".$voladura_sel;
+                            $mysqli->query($query);
+                            //echo $query;
+                            
+                            //MUESTRAS METODOS   
+                            $max_trn_id_met = $mysqli->query("SELECT IFNULL(MAX(trn_id), 0) AS trn_id FROM arg_ordenes_metodos ") or die(mysqli_error($mysqli));
+                            $ma_trn_id_m = $max_trn_id_met ->fetch_array(MYSQLI_ASSOC);
+                            $trn_id_met = $ma_trn_id_m['trn_id'];
+                            $trn_id_met = $trn_id_met +1;                                  
+                            
+                            //Validamos el total de muestras de los métodos seleccionados
+                            $max_muestras_metodo = $mysqli->query("SELECT maximo_muestras FROM arg_empr_unidades WHERE unidad_id = ".$unidad_id) or die(mysqli_error($mysqli));
+                            $max_muestras  = $max_muestras_metodo ->fetch_array(MYSQLI_ASSOC);
+                            $max_muest_ord = $max_muestras['maximo_muestras'];
                                                                                     
-                                    if ($cantidad_sel <= $max_muest_ord){                                            
-                                         $total_ordenes = 1;
-                                         $resto_muestras = 0;  
-                                         $cant_bloque_muestras = $cantidad_sel;                                   
-                                    }else{                                            
-                                        $total_ordenes = ceil($cantidad_sel/$max_muest_ord);
-                                        $resto_muestras = fmod($cantidad_sel,$max_muest_ord);//ceil($cantidad_sel/$max_muest_ord); 
-                                        $cant_bloque_muestras = $max_muest_ord;
-                                        //$folio_actual_fin = $folio_actual_ini+$cant_bloque_muestras;
-                                        $folio_actual_fin = $folio_actual+$cant_bloque_muestras;  
-                                    }
+                            if ($cantidad_sel <= $max_muest_ord){                                            
+                                    $total_ordenes = 1;
+                                    $resto_muestras = 0;  
+                                    $cant_bloque_muestras = $cantidad_sel;                                   
+                            }else{                                            
+                                $total_ordenes = ceil($cantidad_sel/$max_muest_ord);
+                                $resto_muestras = fmod($cantidad_sel,$max_muest_ord);//ceil($cantidad_sel/$max_muest_ord); 
+                                $cant_bloque_muestras = $max_muest_ord;
+                                //$folio_actual_fin = $folio_actual_ini+$cant_bloque_muestras;
+                                $folio_actual_fin = $folio_actual+$cant_bloque_muestras;  
+                            }
                                     
-                                    $j = 1;                                    
-                                    while ($j <= $total_ordenes){
+                            $j = 1;                                    
+                            while ($j <= $total_ordenes){
                                         
-                                         //Ordenes_detalle
-                                         $max_trn_det = $mysqli->query("SELECT MAX(trn_id) AS trn_id FROM arg_ordenes_detalle") or die(mysqli_error($mysqli));
-                                         $max_trn = $max_trn_det ->fetch_array(MYSQLI_ASSOC);
-                                         $tr_id_det = $max_trn['trn_id'];
-                                         $tr_id_det = $tr_id_det + 1;
-                                         
-                                         $max_folio_det = $mysqli->query("SELECT  IFNULL(MAX(od.folio), 0) AS folio_ord 
-                                                                          FROM arg_ordenes_detalle od
-                                                                            LEFT JOIN arg_ordenes AS o
-                                                                            	ON od.trn_id_rel = o.trn_id
-                                                                          WHERE
-                                                                        	o.unidad_id = ".$unidad_id) or die(mysqli_error($mysqli));
-                                         $max_fol = $max_folio_det ->fetch_array(MYSQLI_ASSOC);
-                                         $folio_det = $max_fol['folio_ord'];
-                                         $folio_det = $folio_det + 1;
-                                         
-                                         $length = 6;                            
-                                         $string_c = (string)$folio_det;
-                                         $cons_c = str_pad($string_c,$length,"0", STR_PAD_LEFT);
-                                         
-                                         $length_fs = 3;
-                                         $folio_actual_sig = str_pad($folio_actual_sig,$length_fs,"0", STR_PAD_LEFT);
-                                         $folio_actual_fin = str_pad($folio_actual_fin,$length_fs,"0", STR_PAD_LEFT);
-                                         
-                                         //Rellenando voladura
-                                         $length_v = 3;
-                                         $string_v = (string)$voladura_sel;
-                                         $voladura_fill = str_pad($string_v,$length_v,"0", STR_PAD_LEFT);                                         
-                                                                  
-                                         $folio_interno = $serie_mina.$cons_c;
-                                         
-                                         if ($j == 1){
-                                            if ($unidad_id == 2){                                                
-                                                $folio_inicial = $caracter_folio.$banco.$voladura_fill.$folio_actual_sig;
-                                                $folio_final   = $caracter_folio.$banco.$voladura_fill.$folio_actual_fin; 
-                                                }
-                                            else{
-                                                $folio_inicial = $banco.$voladura_fill.$folio_actual_sig;
-                                                $folio_final   = $banco.$voladura_fill.$folio_actual_fin;
-                                            }
-                                         }
-                                         
-                                         if ($total_ordenes > 1 && $j <> 1){
-                                             if($j == $total_ordenes && $resto_muestras <> 0){
-                                                $cant_bloque_muestras = $resto_muestras;
-                                                $folio_actual_sig = $folio_actual_fin+1;
-                                                $folio_actual_fin = $folio_actual_fin+$cant_bloque_muestras;
-                                                $length_fs = 3;
-                                                $folio_actual_sig = str_pad($folio_actual_sig,$length_fs,"0", STR_PAD_LEFT);
-                                                $folio_actual_fin = str_pad($folio_actual_fin,$length_fs,"0", STR_PAD_LEFT);
-                                                if ($unidad_id == 2){
-                                                    $folio_inicial = $caracter_folio.$banco.$voladura_fill.$folio_actual_sig;
-                                                    $folio_final   = $caracter_folio.$banco.$voladura_fill.$folio_actual_fin; 
-                                                    }
-                                                else{
-                                                    $folio_inicial = $banco.$voladura_fill.$folio_actual_sig;
-                                                    $folio_final   = $banco.$voladura_fill.$folio_actual_fin;
-                                                }
-                                             }
-                                             else{
-                                                $cant_bloque_muestras = $max_muest_ord;
-                                                $folio_actual_sig = $folio_actual_fin+1;
-                                                $folio_actual_fin = $folio_actual_fin+$cant_bloque_muestras;
-                                                $length_fs = 3;
-                                                $folio_actual_sig = str_pad($folio_actual_sig,$length_fs,"0", STR_PAD_LEFT);
-                                                $folio_actual_fin = str_pad($folio_actual_fin,$length_fs,"0", STR_PAD_LEFT);
-                                                if ($unidad_id == 2){
-                                                    $folio_inicial = $caracter_folio.$banco.$voladura_fill.$folio_actual_sig;
-                                                    $folio_final   = $caracter_folio.$banco.$voladura_fill.$folio_actual_fin; 
-                                                    }
-                                                else{
-                                                    $folio_inicial = $banco.$voladura_fill.$folio_actual_sig;
-                                                    $folio_final   = $banco.$voladura_fill.$folio_actual_fin;
-                                                }
-                                             }
-                                         }
-                                         
-                                         $query = "INSERT INTO arg_ordenes_detalle (trn_id, trn_id_rel, banco_id, voladura_id, cantidad, folio_inicial, folio_final, folio, folio_interno, estado, usuario_id) ".
-                                                  "VALUES ($tr_id_det, $trn_id, $banco_sel, $voladura_sel, $cant_bloque_muestras, '$folio_inicial','$folio_final',$folio_det , '$folio_interno', 0, $u_id)";
-                                         $mysqli->query($query) ;
-                                         //echo $query;
-                                         $max_mue_id = $mysqli->query("SELECT IFNULL(MAX(trn_id), 0) AS trn_id_mue FROM arg_ordenes_muestras") or die(mysqli_error($mysqli));
-                                         $max_mues_id = $max_mue_id ->fetch_array(MYSQLI_ASSOC);
-                                         $trn_id_mue = $max_mues_id['trn_id_mue'];
-                                         $trn_id_mue = $trn_id_mue +1;
-                                         
-                                         $folio_actual_det = $folio_actual_sig;
-                                         
-                                         //ORDENES CON DETALLE DE MUESTRAS
-                                             $c = 1;
-                                             while ($c <= $cant_bloque_muestras){
-                                                 $length = 6;
-                                                 $string = (string)$folio_orden;
-                                                 $folio_orden_int = str_pad($string,$length,"0", STR_PAD_LEFT);
-                                                 $length_c = 3;
-                                                 $string_c = (string)$cons_det;
-                                                 $cons_deta = str_pad($string_c,$length_c,"0", STR_PAD_LEFT);
-                                                 
-                                                 $folio_sig = str_pad($folio_actual_det,$length_c,"0", STR_PAD_LEFT);
-                                                 
-                                                 //Validamos el caracter inicial de SA, las demás minas no llevan son de 10 caracteres los folios
-                                                 if ($unidad_id == 2){
-                                                    $folio_inicial_det = $caracter_folio.$banco.$voladura_fill.$folio_sig;                                       
-                                                 }else{
-                                                    $folio_inicial_det = $banco.$voladura_fill.$folio_sig;                                                                            
-                                                 }
-                                                 $folio_interno_det = $serie_mina.$folio_orden_int.'-'.$cons_deta;                                     
-                                                 $query = "INSERT INTO arg_ordenes_muestras (trn_id, trn_id_rel, folio, tipo_id) ".
-                                                          "VALUES ($trn_id_mue, $tr_id_det, '$folio_inicial_det', 0)";
-                                                 $mysqli->query($query) ;
-                                                //echo $query;
-                                                $c++;
-                                                $trn_id_mue++;
-                                                $cons_det++;
-                                                $folio_actual_det++;
-                                             }  
-                                                $j++;
+                                //Ordenes_detalle
+                                $max_trn_det = $mysqli->query("SELECT MAX(trn_id) AS trn_id FROM arg_ordenes_detalle") or die(mysqli_error($mysqli));
+                                $max_trn = $max_trn_det ->fetch_array(MYSQLI_ASSOC);
+                                $tr_id_det = $max_trn['trn_id'];
+                                $tr_id_det = $tr_id_det + 1;
+                                
+                                $max_folio_det = $mysqli->query("SELECT  IFNULL(MAX(od.folio), 0) AS folio_ord 
+                                                                FROM arg_ordenes_detalle od
+                                                                LEFT JOIN arg_ordenes AS o
+                                                                    ON od.trn_id_rel = o.trn_id
+                                                                WHERE
+                                                                o.unidad_id = ".$unidad_id) or die(mysqli_error($mysqli));
+                                $max_fol = $max_folio_det ->fetch_array(MYSQLI_ASSOC);
+                                $folio_det = $max_fol['folio_ord'];
+                                $folio_det = $folio_det + 1;
+                                
+                                $length = 6;                            
+                                $string_c = (string)$folio_det;
+                                $cons_c = str_pad($string_c,$length,"0", STR_PAD_LEFT);
+                                
+                                $length_fs = 3;
+                                $folio_actual_sig = str_pad($folio_actual_sig,$length_fs,"0", STR_PAD_LEFT);
+                                $folio_actual_fin = str_pad($folio_actual_fin,$length_fs,"0", STR_PAD_LEFT);
+                                
+                                //Rellenando voladura
+                                $length_v = 3;
+                                $string_v = (string)$voladura_sel;
+                                $voladura_fill = str_pad($string_v,$length_v,"0", STR_PAD_LEFT);                                         
+                                                        
+                                $folio_interno = $serie_mina.$cons_c;
+                                
+                                if ($j == 1){
+                                    if ($unidad_id == 2){                                                
+                                        $folio_inicial = $caracter_folio.$banco.$voladura_fill.$folio_actual_sig;
+                                        $folio_final   = $caracter_folio.$banco.$voladura_fill.$folio_actual_fin; 
+                                        }
+                                    else{
+                                        $folio_inicial = $banco.$voladura_fill.$folio_actual_sig;
+                                        $folio_final   = $banco.$voladura_fill.$folio_actual_fin;
+                                    }
+                                }
+                                
+                                if ($total_ordenes > 1 && $j <> 1){
+                                    if($j == $total_ordenes && $resto_muestras <> 0){
+                                    $cant_bloque_muestras = $resto_muestras;
+                                    $folio_actual_sig = $folio_actual_fin+1;
+                                    $folio_actual_fin = $folio_actual_fin+$cant_bloque_muestras;
+                                    $length_fs = 3;
+                                    $folio_actual_sig = str_pad($folio_actual_sig,$length_fs,"0", STR_PAD_LEFT);
+                                    $folio_actual_fin = str_pad($folio_actual_fin,$length_fs,"0", STR_PAD_LEFT);
+                                    if ($unidad_id == 2){
+                                        $folio_inicial = $caracter_folio.$banco.$voladura_fill.$folio_actual_sig;
+                                        $folio_final   = $caracter_folio.$banco.$voladura_fill.$folio_actual_fin; 
+                                        }
+                                    else{
+                                        $folio_inicial = $banco.$voladura_fill.$folio_actual_sig;
+                                        $folio_final   = $banco.$voladura_fill.$folio_actual_fin;
+                                    }
+                                    }
+                                    else{
+                                    $cant_bloque_muestras = $max_muest_ord;
+                                    $folio_actual_sig = $folio_actual_fin+1;
+                                    $folio_actual_fin = $folio_actual_fin+$cant_bloque_muestras;
+                                    $length_fs = 3;
+                                    $folio_actual_sig = str_pad($folio_actual_sig,$length_fs,"0", STR_PAD_LEFT);
+                                    $folio_actual_fin = str_pad($folio_actual_fin,$length_fs,"0", STR_PAD_LEFT);
+                                    if ($unidad_id == 2){
+                                        $folio_inicial = $caracter_folio.$banco.$voladura_fill.$folio_actual_sig;
+                                        $folio_final   = $caracter_folio.$banco.$voladura_fill.$folio_actual_fin; 
+                                        }
+                                    else{
+                                        $folio_inicial = $banco.$voladura_fill.$folio_actual_sig;
+                                        $folio_final   = $banco.$voladura_fill.$folio_actual_fin;
+                                    }
+                                    }
+                                }
+
+                                $query = "INSERT INTO arg_ordenes_detalle (trn_id, trn_id_rel, banco_id, voladura_id, cantidad, folio_inicial, folio_final, folio, folio_interno, estado, usuario_id) ".
+                                        "VALUES ($tr_id_det, $trn_id, $banco_sel, $voladura_sel, $cant_bloque_muestras, '$folio_inicial','$folio_final',$folio_det , '$folio_interno', 0, $u_id)";
+                                $mysqli->query($query) ;
+                                //echo $query;
+                                $max_mue_id = $mysqli->query("SELECT IFNULL(MAX(trn_id), 0) AS trn_id_mue FROM arg_ordenes_muestras") or die(mysqli_error($mysqli));
+                                $max_mues_id = $max_mue_id ->fetch_array(MYSQLI_ASSOC);
+                                $trn_id_mue = $max_mues_id['trn_id_mue'];
+                                $trn_id_mue = $trn_id_mue +1;
+                                
+                                $folio_actual_det = $folio_actual_sig;
+
+                                //ORDENES CON DETALLE DE MUESTRAS
+                                $c = 1;
+                                while ($c <= $cant_bloque_muestras){
+                                    $length = 6;
+                                    $string = (string)$folio_orden;
+                                    $folio_orden_int = str_pad($string,$length,"0", STR_PAD_LEFT);
+                                    $length_c = 3;
+                                    //$string_c = (string)$cons_det;
+                                    //$cons_deta = str_pad($string_c,$length_c,"0", STR_PAD_LEFT);
+                                    
+                                    $folio_sig = str_pad($folio_actual_det,$length_c,"0", STR_PAD_LEFT);
+                                    
+                                    //Validamos el caracter inicial de SA, las demás minas no llevan son de 10 caracteres los folios
+                                    if ($unidad_id == 2){
+                                    $folio_inicial_det = $caracter_folio.$banco.$voladura_fill.$folio_sig;                                       
+                                    }else{
+                                    $folio_inicial_det = $banco.$voladura_fill.$folio_sig;                                                                            
+                                    }
+                                    //$folio_interno_det = $serie_mina.$folio_orden_int.'-'.$cons_deta;                                     
+                                    $query = "INSERT INTO arg_ordenes_muestras (trn_id, trn_id_rel, folio, tipo_id) ".
+                                            "VALUES ($trn_id_mue, $tr_id_det, '$folio_inicial_det', 0)";
+                                    $mysqli->query($query) ;
+                                    //echo $query;
+                                    $c++;
+                                    $trn_id_mue++;
+                                    //$cons_det++;
+                                    $folio_actual_det++;
+                                }  
+                                $j++;
                                 
                                 $metodos_validar = $mysqli->query("SELECT metodo_id FROM arg_metodos WHERE activo = 1 AND tipo_id = 1") or die(mysqli_error($mysqli));
                                 while ($metodos = $metodos_validar->fetch_assoc()) {
-                                        $metodo_id = $metodos['metodo_id'];
-                                        $fila1 = 'fila'.$pos.'_'.$metodo_id;
-                                        $metodo_sel = $_POST[$fila1];
-                                        if ($metodo_sel == 'on'){
-                                                    $query = "INSERT INTO arg_ordenes_metodos (trn_id, trn_id_rel, metodo_id ) ".
-                                                             "VALUES ($trn_id_met, $tr_id_det, $metodo_id)";
-                                                    $mysqli->query($query) ;
-                                                    //echo $query;
-                                                    $trn_id_met++;
-                                        }  
-                                    }
-                                }                            
-                               $i++;
-                               $pos++;
-                               $cons++;                   
-                           }   
+                                    $metodo_id = $metodos['metodo_id'];
+                                    $fila1 = 'fila'.$pos.'_'.$metodo_id;
+                                    $metodo_sel = $_POST[$fila1];
+                                    if ($metodo_sel == 'on'){
+                                        $query = "INSERT INTO arg_ordenes_metodos (trn_id, trn_id_rel, metodo_id ) ".
+                                                    "VALUES ($trn_id_met, $tr_id_det, $metodo_id)";
+                                        $mysqli->query($query) ;
+                                        //echo $query;
+                                        $trn_id_met++;
+                                    }  
+                                }
+                            }                            
+                            $i++;
+                            $pos++;
+                               //$cons++;                   
+                        }   
                     }     
                       //die();               
                      echo "<script>";
