@@ -13,7 +13,7 @@ if (isset($banco_sel)){
                                      	  pre.unidad_id = ".$unidad_id_sel."
                                           AND pre.banco_id = ".$banco_sel."
                                           AND pre.voladura_id = ".$voladura_sel
-                                    ) or die(mysqli_error());
+                                    ) or die(mysqli_error($mysqli));
   }      
 if ($resultado->num_rows > 0) {
    while ($row = $resultado->fetch_assoc()) {  

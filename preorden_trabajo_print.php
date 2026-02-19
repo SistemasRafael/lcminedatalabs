@@ -5,8 +5,8 @@
 		</head>
 		<body>
 		
-            <?include('partials/header.php'); ?>
-            <?include('partials/preorden_trabajo_print.php'); ?>
+            <?php include('partials/header.php'); ?>
+            <?php include('partials/preorden_trabajo_print.php'); ?>
             <?//include('partials/footer.php'); ?>
 		</body>
 		</html>

@@ -13,13 +13,13 @@ if (isset($trn_id_pre)){
                                             AND bv.voladura_id = pr.voladura_id
                                       WHERE 
                                      	  pr.trn_id = ".$trn_id_pre
-                                    ) or die(mysqli_error());
+                                    ) or die(mysqli_error($mysqli));
   }      
 if ($resultado->num_rows > 0) {
     
     //$html .= //("<option value=$idtop>$nombretop</option>"); 
    while ($row = $resultado->fetch_assoc()) {
-        $vol = str_pad($row['voladura_id'],3,"0", STR_PAD_LEFT);;
+        $vol = str_pad($row['voladura_id'],3,"0", STR_PAD_LEFT);
         $folio = str_pad($row['folio_actual']+1, 3, "0",STR_PAD_LEFT);
         $folio_sig =($row['banco'].$vol.$folio);  
         $html .= $folio_sig;//("<option value=$voladura_id>$voladura_id</option>"); 

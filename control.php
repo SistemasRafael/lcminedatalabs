@@ -8,11 +8,11 @@ include "connections/config.php";
         $passw = $_POST["clave"];
         if ($passw == ''){
             
-            echo 'La contraseña no puede estar vacía';
+            echo 'La contraseï¿½a no puede estar vacï¿½a';
            	echo"<script>window.location.href='index.php'</script>";
         }
         else{
-        $pass = MD5($_POST["clave"]);       
+        $pass = MD5($_POST["clave"]);
 		$usuario = mailboxpowerloginrd($usr, $_POST["clave"]);        
 		if($usuario == "0" || $usuario == ''){
 		
@@ -25,7 +25,9 @@ include "connections/config.php";
               //var_dump($existe_extu);
               //die();
               if ($existe_extu <> ''){
-                  session_start();
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
                   
                  $_SESSION["LoggedIn"] = 1;
 			     $_SESSION["user"] = $usr;
@@ -120,7 +122,7 @@ include "connections/config.php";
                             
                 $mysqli->query($query1) or die('Error, query failed : ' . mysqli_error($mysqli));
                             
-                echo "<br><b>Se guardó con exito:</b><br><br>"."$fileName <br>"; 
+                echo "<br><b>Se guardï¿½ con exito:</b><br><br>"."$fileName <br>"; 
                 
                 $_SESSION['u_id'] = $id_max;
                 $_SESSION["LoggedIn"] = 1;
