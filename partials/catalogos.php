@@ -61,13 +61,10 @@ $unidad_mina = $unidad_sele['nombre'];
         {                     
             var unidad_id = unidad_id
             var banco_id = document.getElementById("banco_ori").value; 
-            //var banco = document.getElementById("banco_num").value;
             var voladura_id = document.getElementById("voladura_id").value;
             var folio_ini = document.getElementById("folio_inicial").value;
             var folio_act = document.getElementById("folio_actual").value;  
-            //alert(banco_id);
-            //alert(folio_ini);
-            /*alert(nombre);**/
+
             $.ajax({
             		url: 'datos_voladuras.php' ,
             		type: 'POST' ,
@@ -146,27 +143,19 @@ $unidad_mina = $unidad_sele['nombre'];
                     
                     <label for="voladura_id" class="col-form-label">Voladura:</label>
                     <input name="voladura_id" id="voladura_id" size=40 style="width:470px; color:#996633"  value="" enabled />
-                   <!-- <label for="folio_inicial" class="col-form-label">Folio Inicial:</label>--!>
                     <input type="hidden" name="folio_inicial" id="folio_inicial" size=40 style="width:470px; color:#996633"  value="0" enabled />
-                     <label for="folio_actual" class="col-form-label">Folio actual:</label>
+                    <label for="folio_actual" class="col-form-label">Folio actual:</label>
                     <input name="folio_actual" id="folio_actual" size=40 style="width:470px; color:#996633"  value="" enabled />
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="GuardarVoladuras(<?php echo $unidad_id;?>)">Guardar</button>
-                 <button type="button" class="btn btn-secondary" onclick="actualizar_vol();" data-dismiss="modal">Cerrar</button>
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
               </div>
             </div>
           </div>
    </div> 
 
 <style type="text/css">
-	.izq{
-		background-color:;
-	}
-	.derecha{
-		background-color:;
-	}
-
 	.btnSubmit
     {
         width: 50%;
