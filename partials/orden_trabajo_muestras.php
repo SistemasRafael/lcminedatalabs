@@ -1,4 +1,4 @@
-   <? // include "connections/config.php";
+   <?php // include "connections/config.php";
         $trn_id = $_GET['trn_id_batch'];
         $metodo_id = $_GET['metodo_id'];
         $unidad_id = $_GET['unidad_id'];
@@ -43,12 +43,6 @@
  </script>
  
 <style type="text/css">
-	.izq{
-		background-color:;
-	}
-	.derecha{
-		background-color:;
-	}
 	.btnSubmit
     {
         width: 50%;
@@ -95,7 +89,7 @@ if (isset($_GET['trn_id'])){
                                         LEFT JOIN arg_usuarios us
                                             ON us.u_id = ord.usuario_id
                                    WHERE det.trn_id = ".$trn_id
-                                   ) or die(mysqli_error());               
+                                   ) or die(mysqli_error($mysqli));               
     $orden_encabezado = $datos_orden->fetch_assoc();                                            
                
     $datos_batchs = $mysqli->query("SELECT trn_id_rel as trn_id_batch, folio_interno, m.nombre as metodo
@@ -105,7 +99,7 @@ if (isset($_GET['trn_id'])){
                                             ON m.metodo_id = ml.metodo_id
                                     WHERE trn_id_rel =".$trn_id." 
                                     AND ml.metodo_id = (CASE WHEN ".$metodo_id." = 0 THEN ml.metodo_id ELSE ".$metodo_id." END) ORDER BY ml.metodo_id"
-                                            ) or die(mysqli_error());
+                                            ) or die(mysqli_error($mysqli));
     $datos_batch = $datos_batchs->fetch_assoc();
             ?>
              <br/> <br/>
@@ -121,7 +115,7 @@ if (isset($_GET['trn_id'])){
                     </div>           
                     <div class="col-md-4 col-lg-4">
                             <select name="metodo_id_sel" id="metodo_id_sel" value="<?echo $metodo_id;?>" onchange="redireccion(<?echo $trn_id.", ".$metodo_id.", ".$unidad_id?>)"  class="form-control"> 
-                            <?$result_h = $mysqli->query("SELECT 0 AS metodo_id, 'Seleccione Método: ' AS nombre UNION ALL SELECT od.metodo_id, m.nombre FROM `ordenes_detalle_metodos` AS od LEFT JOIN arg_metodos AS m ON od.metodo_id = m.metodo_id WHERE od.trn_id_rel = ".$trn_id) or die(mysqli_error());                             
+                            <?$result_h = $mysqli->query("SELECT 0 AS metodo_id, 'Seleccione Método: ' AS nombre UNION ALL SELECT od.metodo_id, m.nombre FROM `ordenes_detalle_metodos` AS od LEFT JOIN arg_metodos AS m ON od.metodo_id = m.metodo_id WHERE od.trn_id_rel = ".$trn_id) or die(mysqli_error($mysqli));                             
                             while ( $row2 = $result_h ->fetch_array(MYSQLI_ASSOC)) {
                                 $banco_sele = $row2['nombre'];?>       
                                 <option value="<?echo $row2['metodo_id']?>"><?echo $banco_sele?></option>
@@ -175,7 +169,7 @@ if (isset($_GET['trn_id'])){
                                                                     0 as tipo_id
                                                                 FROM
                                                                     arg_ordenes_muestras ot WHERE ot.tipo_id = 0 AND ot.trn_id_rel =  ".$trn_id)
-                                                               or die(mysqli_error());
+                                                               or die(mysqli_error($mysqli));
                                 }
                                 else{
                                     if ($orden_encabezado['tipo'] == 6){
@@ -195,7 +189,7 @@ if (isset($_GET['trn_id'])){
                                                                     WHERE 
                                                                        ot.tipo_id = 0  
                                                                        AND ot.trn_id_rel = ".$trn_id
-                                                                    ) or die(mysqli_error());
+                                                                    ) or die(mysqli_error($mysqli));
                                     }
                                     else{
                                         $muestras_det = $mysqli->query("SELECT
@@ -212,7 +206,7 @@ if (isset($_GET['trn_id'])){
                                                                     FROM
                                                                         ordenes_transacciones ot
                                                                     WHERE ot.tipo_id = 0  AND ot.trn_id_batch = ".$trn_id
-                                                                    ) or die(mysqli_error());
+                                                                    ) or die(mysqli_error($mysqli));
                                     }
                                 }
                   
