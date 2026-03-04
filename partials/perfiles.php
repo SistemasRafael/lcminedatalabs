@@ -1,33 +1,30 @@
 <?php
-//include "../connections/config.php";
-$unidad_id = $_GET['unidad_id'];
-$_SESSION['unidad_id'] = $unidad_id;
-$u_id = $_SESSION['u_id'];
+  $unidad_id = $_GET['unidad_id'];
+  $_SESSION['unidad_id'] = $unidad_id;
+  $u_id = $_SESSION['u_id'];
 
-$unidad = $mysqli->query(
-  "SELECT
-                            nombre
-                          FROM
-                            `arg_empr_unidades`
-                          WHERE
-                            unidad_id = " . $unidad_id
-) or die(mysqli_error());
-$unidad_sele = $unidad->fetch_assoc();
-$unidad_mina = $unidad_sele['nombre'];
+  $unidad = $mysqli->query(
+    "SELECT
+                              nombre
+                            FROM
+                              `arg_empr_unidades`
+                            WHERE
+                              unidad_id = " . $unidad_id
+  ) or die(mysqli_error($mysqli));
+  $unidad_sele = $unidad->fetch_assoc();
+  $unidad_mina = $unidad_sele['nombre'];
 
-$permisos_ed = $mysqli->query(
-  "SELECT
-                            COUNT(*) AS editar
-                          FROM
-                            `arg_usuarios_perfiles`
-                          WHERE 
-                            perfil_id = 5
-                            AND u_id = " . $u_id
-) or die(mysqli_error());
-$permisos_edi = $permisos_ed->fetch_assoc();
-$permisos_editar = $permisos_edi['editar'];
-
-
+  $permisos_ed = $mysqli->query(
+    "SELECT
+                              COUNT(*) AS editar
+                            FROM
+                              `arg_usuarios_perfiles`
+                            WHERE 
+                              perfil_id = 5
+                              AND u_id = " . $u_id
+  ) or die(mysqli_error($mysqli));
+  $permisos_edi = $permisos_ed->fetch_assoc();
+  $permisos_editar = $permisos_edi['editar'];
 ?>
 
 <script>
@@ -97,7 +94,7 @@ $permisos_editar = $permisos_edi['editar'];
   function GuardarUsuario() {
     var frm = document.getElementById('form1');
     var data = new FormData(frm);
-    data.append('u_id_creado', <? echo $u_id ?>)
+    data.append('u_id_creado', <?php  echo $u_id ?>)
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4) {
@@ -105,7 +102,7 @@ $permisos_editar = $permisos_edi['editar'];
         if (msg == 'Se agregó correctamente el usuario') {
           alert(msg);
           $('#ModalBan').modal('hide');
-          var direccionar = '<? echo "\perfiles.php?unidad_id=" ?>' + unidad_id;
+          var direccionar = '<?php  echo "\perfiles.php?unidad_id=" ?>' + unidad_id;
           window.location.href = direccionar;
         } else {
           alert(msg);
@@ -383,7 +380,7 @@ $permisos_editar = $permisos_edi['editar'];
 
   function actualizar_perfiles() {
     var unidad_id = document.getElementById('mina_perf').value;
-    var direccionar = '<? echo "\perfiles.php?unidad_id=" ?>' + unidad_id;
+    var direccionar = '<?php  echo "\perfiles.php?unidad_id=" ?>' + unidad_id;
     window.location.href = direccionar;
   }
   (function($, window) {
@@ -465,7 +462,7 @@ $permisos_editar = $permisos_edi['editar'];
 
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-          <input type="hidden" id="mina_perf" size=40 style="width:470px; color:#996633" value="<? echo $unidad_id; ?>" disabled />
+          <input type="hidden" id="mina_perf" size=40 style="width:470px; color:#996633" value="<?php  echo $unidad_id; ?>" disabled />
 
         </button>
       </div>
@@ -491,7 +488,7 @@ $permisos_editar = $permisos_edi['editar'];
 
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-          <input type="hidden" id="mina_perf" size=40 style="width:470px; color:#996633" value="<? echo $unidad_id; ?>" disabled />
+          <input type="hidden" id="mina_perf" size=40 style="width:470px; color:#996633" value="<?php  echo $unidad_id; ?>" disabled />
 
         </button>
       </div>
@@ -518,7 +515,7 @@ $permisos_editar = $permisos_edi['editar'];
 
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-          <input type="hidden" id="mina_perf" size=40 style="width:470px; color:#996633" value="<? echo $unidad_id; ?>" disabled />
+          <input type="hidden" id="mina_perf" size=40 style="width:470px; color:#996633" value="<?php  echo $unidad_id; ?>" disabled />
 
         </button>
       </div>
@@ -543,7 +540,7 @@ $permisos_editar = $permisos_edi['editar'];
 
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-          <input type="hidden" id="mina_perf" size=40 style="width:470px; color:#996633" value="<? echo $unidad_id; ?>" disabled />
+          <input type="hidden" id="mina_perf" size=40 style="width:470px; color:#996633" value="<?php  echo $unidad_id; ?>" disabled />
 
         </button>
       </div>
@@ -569,7 +566,7 @@ $permisos_editar = $permisos_edi['editar'];
 
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-          <input type="hidden" id="mina_perf" size=40 style="width:470px; color:#996633" value="<? echo $unidad_id; ?>" disabled />
+          <input type="hidden" id="mina_perf" size=40 style="width:470px; color:#996633" value="<?php  echo $unidad_id; ?>" disabled />
 
         </button>
       </div>
@@ -595,7 +592,7 @@ $permisos_editar = $permisos_edi['editar'];
 
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-          <input type="hidden" id="mina_perf" size=40 style="width:470px; color:#996633" value="<? echo $unidad_id; ?>" disabled />
+          <input type="hidden" id="mina_perf" size=40 style="width:470px; color:#996633" value="<?php  echo $unidad_id; ?>" disabled />
         </button>
       </div>
       <div class="modal-body">
@@ -632,14 +629,14 @@ $permisos_editar = $permisos_edi['editar'];
           <label for="division" class="col-form-label">Division:</label>
           <br />
           <select class="fields" name="division" id="division">
-            <?
+            <?php 
             $datos_divisiones = $mysqli->query(
               "SELECT DISTINCT division FROM arg_usuarios;"
             ) or die(mysqli_error($mysqli));
             while ($fila = $datos_divisiones->fetch_assoc()) {
             ?>
-              <option value="<? echo $fila['division'] ?>"><? echo $fila['division'] ?></option>
-            <? } ?>
+              <option value="<?php  echo $fila['division'] ?>"><?php  echo $fila['division'] ?></option>
+            <?php  } ?>
           </select>
           <br />
           <label for="email" class="col-form-label">Email:</label>
@@ -656,11 +653,11 @@ $permisos_editar = $permisos_edi['editar'];
           <br>
           <br>
           <select class="fields" name='mina_seleccionada' id='mina_seleccionada'>
-            <? $nombretop = "Asignar Mina"; ?>
+            <?php  $nombretop = "Asignar Mina"; ?>
             <option value='0'>
-              <? echo $nombretop ?>
+              <?php  echo $nombretop ?>
             </option>
-            <? $result = $mysqli->query("SELECT unidad_id, Nombre FROM arg_empr_unidades") or die(mysqli_error($mysqli));
+            <?php  $result = $mysqli->query("SELECT unidad_id, Nombre FROM arg_empr_unidades") or die(mysqli_error($mysqli));
             while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
               $nombre = ($row["Nombre"]);
               $nomenclatura = $row["unidad_id"];
@@ -683,14 +680,6 @@ $permisos_editar = $permisos_edi['editar'];
 </div>
 
 <style type="text/css">
-  .izq {
-    background-color: ;
-  }
-
-  .derecha {
-    background-color: ;
-  }
-
   .btnSubmit {
     width: 50%;
     border-radius: 1rem;
@@ -708,29 +697,27 @@ $permisos_editar = $permisos_edi['editar'];
   }
 </style>
 
-<?php
-
-if (isset($unidad_id)) {
-  //if ($tipo == 1){
-  $datos_usuarios_detalle = $mysqli->query(
-    "SELECT
-	                                                us.u_id
-                                                   ,us.codigo
-                                                   ,us.nombre
-                                                   ,us.email
-                                                   ,(CASE WHEN us.activo = 1 THEN 'SI' ELSE 'NO' END) AS activo
-                                                   ,(CASE WHEN us.division = 'empleado' THEN 'AD' ELSE 'User Local' END) AS tipo_usuario
-                                                   ,us.fecha_creacion
-                                                   ,us.fecha_fin
-                                                   ,uc.nombre AS user_created
-                                            FROM
-                                                    `arg_usuarios` us
-                                                    LEFT JOIN arg_usuarios uc
-                                                        ON us.u_id_created = uc.u_id
-                                            ORDER BY
-                                                    us.nombre"
-  ) or die(mysqli_error());
-?>
+  <?php
+    if (isset($unidad_id)) {
+      $datos_usuarios_detalle = $mysqli->query(
+        "SELECT
+                                                      us.u_id
+                                                      ,us.codigo
+                                                      ,us.nombre
+                                                      ,us.email
+                                                      ,(CASE WHEN us.activo = 1 THEN 'SI' ELSE 'NO' END) AS activo
+                                                      ,(CASE WHEN us.division = 'empleado' THEN 'AD' ELSE 'User Local' END) AS tipo_usuario
+                                                      ,us.fecha_creacion
+                                                      ,us.fecha_fin
+                                                      ,uc.nombre AS user_created
+                                                FROM
+                                                        `arg_usuarios` us
+                                                        LEFT JOIN arg_usuarios uc
+                                                            ON us.u_id_created = uc.u_id
+                                                ORDER BY
+                                                        us.nombre"
+      ) or die(mysqli_error($mysqli));  
+  ?>
   <div class="container">
     <ul class="nav nav-tabs" id="myTab">
       <li class="active"><a data-toggle="tab" href="#home">USUARIOS</a></li>
@@ -748,7 +735,7 @@ if (isset($unidad_id)) {
             </button>
           </div>
           <br /><br />
-          <?
+          <?php 
           $html_det = "<div class='container'>
                                         <table class='table table-striped' id='motivos'>
                                         <thead>
@@ -823,20 +810,18 @@ if (isset($unidad_id)) {
           ?>
         </div>
       </div>
-      <? //Fin primer tab usuarios
-      ?>
 
       <div id="menu1" class="tab-pane fade">
         <div class="container" class="col-md-12 col-lg-12">
           <br />
           <div class="container" class="col-md-2 col-lg-4">
             <button type='button' class='btn btn-primary' name='agregar_voladura' id='agregar_voladura' data-toggle="modal" data-target="#ModalVol">+ AGREGAR PERFIL</button>
-            <button type='button' class='btn btn-success' name='export' id='export' onclick="exportar_voladura(1, <? echo $unidad_id ?>)">EXPORTAR
+            <button type='button' class='btn btn-success' name='export' id='export' onclick="exportar_voladura(1, <?php  echo $unidad_id ?>)">EXPORTAR
               <span class='fa fa-file-excel-o fa-1x'></span>
             </button>
           </div>
           <br /><br />
-          <?
+          <?php 
           $datos_perfiles_detalle = $mysqli->query(
             "SELECT
                                                                 per.perfil_id,
@@ -848,7 +833,7 @@ if (isset($unidad_id)) {
                                                                 `arg_perfiles` per
                                                             LEFT JOIN arg_usuarios uc ON
                                                                 per.u_id_created = uc.u_id"
-          ) or die(mysqli_error());
+          ) or die(mysqli_error($mysqli));
 
           $html_det = "<div class='container'>
                         <table class='table table-striped' id='motivos'>
@@ -897,9 +882,6 @@ if (isset($unidad_id)) {
       </div>
 
     </div>
-  <?
-}
-  ?>
+  <?php } ?>
   <br /><br /><br /><br /><br /><br /><br /><br />
   <script type="text/javascript" src="js/jquery.min.js"></script>
-  <!--<script type="text/javascript" src="js/vehiculos.js"></script>-->
