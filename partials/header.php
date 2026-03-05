@@ -10,30 +10,18 @@
   <meta name="description" content="">
   <meta name="author" content="MineData-Labs">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Custom fonts for this template  -->
-
-  <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
-
   <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
   <script type="text/javascript" src="js/jquery.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-<!--  <link href="http://localhost/dgominedatalabs/css/check.css" rel="stylesheet">--!>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-
   <style type="text/css">
     body {
       padding-bottom: 20px;
@@ -179,7 +167,9 @@
 
   <div class="container" class="col-xl-3 col-sm-3 col-md-5 col-ld-5 ">
     <div class="row">
-      <?php $mysqli->set_charset("utf8");
+
+      <?php 
+      $mysqli->set_charset("utf8");
       $datos_menu = $mysqli->query("SELECT DISTINCT
                                     menu_id, `nombre_directiva`, clase 
                                 FROM 
@@ -188,8 +178,8 @@
                                     directiva_id = 1 AND activo = 1 AND u_id = " .$_SESSION['u_id']."
                                 ORDER BY menu_id")
         or die(mysqli_error($mysqli));
-      //utf8_encode($mysqli);
       while ($row_menu = $datos_menu->fetch_assoc()) { ?>
+        
         <div class="col-xl-3 col-sm-5 col-md-4 col-ld-5 ">
           <div class="card text-white text-xl-center bg-info o-hidden h-80">
             <div class="card-body">
@@ -221,180 +211,4 @@
       <?php  } ?>
     </div>
   </div>
-
-
-
   </div>
-  <!--   <div class="col-xl-3 col-sm-3 col-md-3 col-ld-3 ">
-          <div class="card text-white text-xl-center bg-info o-hidden h-80">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-th-list fa-2x"></i>
-              </div>
-            </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-light btn-block dropdown-toggle" data-toggle="dropdown">
-                        ORDENES DE TRABAJO
-                     </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li> <a href="app.php?unidad_id=<?php  echo $unidad_mina_sel; ?>"><h5>Crear Orden de Trabajo Sólidos</h5></a> </li>
-                            <li> <a href="app_sln.php?unidad_id=<?php  echo $unidad_mina_sel; ?>"><h5>Crear Orden de Trabajo Solución</h5></a> </li>
-                            <li> <a href="#"><h5>Crear Orden de Trabajo Stackers</h5></a> </li>
-                            <li class="divider"></li>
-                          
-                            <li> <a href="seguimiento_ordenes.php?unidad_id=<?php  echo $unidad_mina_sel; ?>"><h5>Seguimiento a Ordenes</h5></a></li>
-                        </ul>
-                   </div>
-              </div>
-          </div>
-          
-          <div class="col-xl-3 col-sm-3 col-md-3 col-ld-3 ">
-          <div class="card text-white text-xl-center bg-info o-hidden h-80">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-flask fa-2x"></i>
-              </div>
-            </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-light btn-block dropdown-toggle" data-toggle="dropdown">
-                        MUESTRAS
-                     </button>
-                   
-                        <ul class="dropdown-menu" role="menu3">
-                            <li> <a href="app.php"><h5>Ver Muestras</h5></a> </li>
-                            <li class="divider"></li>                   
-                            <li> <a  href="app.php?tipo=1&unidad=<?php  echo $unidad_mina_sel; ?>"><h5>Seguimiento a Muestras</h5></a> </li>
-                        </ul>
-                   </div>
-              </div>
-          </div>
-          
-          <div class="col-xl-3 col-sm-3 col-md-3 col-ld-3 ">
-          <div class="card text-white text-xl-center bg-info o-hidden h-80">
-            <div class="card-body">
-              <div class="card-body-icon big">
-                <i class="fa fa-line-chart fa-2x"></i>
-              </div>
-            </div>
-                    <div class="btn-group">
-                    <button type="button" class="btn btn-light btn-block dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                        INFORMES
-                     </button>
-                        
-                        <ul class="dropdown-menu" role="menu">
-                            <li> <a href="#"<?php  echo $unidad_mina_sel; ?>"><h5>Rastreador de muestras</h5></a> </li>                                              
-                            <li> <a  href="visor_ordenes.php?unidad_id=<?php  echo $unidad_mina_sel; ?>""<?php  echo $unidad_mina_sel; ?>"><h5>Ordenes de Trabajo</h5></a> </li>
-                            <li> <a  href="calendario.php?motivo=0&unidad=<?php  echo $unidad_mina_sel; ?>"><h5>Acumulados de Muestras</h5></a></li>
-                        </ul>
-                   </div>
-                
-              </div>
-          </div>  --!>
-          
-     
-    
-    <!--
-<a class="navbar-brand logos" href="app.php?unidad_id=<?php  echo $unidad_mina_sel; ?>">
-      <img src="images/argonaut-logo2.jpg" alt="ArgonautGold Logo">
-</a>
-  
-    <div class="container">
-    <div class="row">
-        <div class="col-xl-3 col-sm-3 col-md-3 col-ld-3 ">
-           <div class="card text-white text-xl-center bg-info o-hidden h-80">
-            <div class="card-body">
-              <div class="card-body-icon big">
-                <i class="fa fa-list-alt fa-2x"></i>
-              </div>
-            </div>
-                <div class="btn-group">
-                    <button type="button" id="dropdownMenuButton" class="btn btn-light btn-block dropdown-toggle" data-toggle="dropdown">
-                        CATALOGOS
-                     </button>
-                        <ul class="dropdown-menu">
-                           <li> <a href="catalogos.php?tipo=1&unidad_id=<?php  echo $unidad_mina_sel; ?>"><h5>Bancos</h5></a> </li>
-                           <li> <a href="catalogos.php?tipo=2&unidad_id=<?php  echo $unidad_mina_sel; ?>"><h5>Voladuras</h5></a> </li>
-                           <li class="divider"></li>
-                           <li> <a href="metodos.php?unidad_id=<?php  echo $unidad_mina_sel; ?>"><h5>Método de Análisis</h5></a> </li>
-                           <li> <a href="controles.php?unidad_id=<?php  echo $unidad_mina_sel; ?>"><h5>Controles de Calidad</h5></a>  </li>
-                           <li class="divider"></li>                    
-                           <li> <a href="fases.php?unidad_id=<?php  echo $unidad_mina_sel; ?>"><h5>Fases de los Métodos</h5></a> </li>  --!>
-                          <!-- <li> <a href="doc_vehiculos.php?unidad=<?php  echo $unidad_mina_sel; ?>"><h5>Etapas de fases</h5></a></li>--!>
-                       <!-- </ul>
-                   </div>
-              </div>
-          </div>
-          
-        <div class="col-xl-3 col-sm-3 col-md-3 col-ld-3 ">
-          <div class="card text-white text-xl-center bg-info o-hidden h-80">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-th-list fa-2x"></i>
-              </div>
-            </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-light btn-block dropdown-toggle" data-toggle="dropdown">
-                        ORDENES DE TRABAJO
-                     </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li> <a href="app.php?unidad_id=<?php  echo $unidad_mina_sel; ?>"><h5>Crear Orden de Trabajo Sólidos</h5></a> </li>
-                            <li> <a href="app_sln.php?unidad_id=<?php  echo $unidad_mina_sel; ?>"><h5>Crear Orden de Trabajo Solución</h5></a> </li>
-                            <li> <a href="#"><h5>Crear Orden de Trabajo Stackers</h5></a> </li>
-                            <li class="divider"></li>   --!>
-                            <!--<li> <a href="mpr.php?unidad_id=<?php  echo $unidad_mina_sel; ?>"><h5>Pesaje Recepción de Muestras</h5></a></li>--!>
-                        <!--    <li> <a href="seguimiento_ordenes.php?unidad_id=<?php  echo $unidad_mina_sel; ?>"><h5>Seguimiento a Ordenes</h5></a></li>
-                        </ul>
-                   </div>
-              </div>
-          </div>
-          
-          <div class="col-xl-3 col-sm-3 col-md-3 col-ld-3 ">
-          <div class="card text-white text-xl-center bg-info o-hidden h-80">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-flask fa-2x"></i>
-              </div>
-            </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-light btn-block dropdown-toggle" data-toggle="dropdown">
-                        MUESTRAS
-                     </button>--!>
-                        <!--<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">-->
-  <!--  <ul class="dropdown-menu" role="menu3">
-                            <li> <a href="app.php"><h5>Ver Muestras</h5></a> </li>
-                            <li class="divider"></li>                   
-                            <li> <a  href="app.php?tipo=1&unidad=<?php  echo $unidad_mina_sel; ?>"><h5>Seguimiento a Muestras</h5></a> </li>
-                        </ul>
-                   </div>
-              </div>
-          </div>
-          
-          <div class="col-xl-3 col-sm-3 col-md-3 col-ld-3 ">
-          <div class="card text-white text-xl-center bg-info o-hidden h-80">
-            <div class="card-body">
-              <div class="card-body-icon big">
-                <i class="fa fa-line-chart fa-2x"></i>
-              </div>
-            </div>
-                    <div class="btn-group">
-                    <button type="button" class="btn btn-light btn-block dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                        INFORMES
-                     </button>-!>
-                        <!--<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">-->
-  <!--    <ul class="dropdown-menu" role="menu">
-                            <li> <a href="#"<?php  echo $unidad_mina_sel; ?>"><h5>Rastreador de muestras</h5></a> </li>                                              
-                            <li> <a  href="visor_ordenes.php?unidad_id=<?php  echo $unidad_mina_sel; ?>""<?php  echo $unidad_mina_sel; ?>"><h5>Ordenes de Trabajo</h5></a> </li>
-                            <li> <a  href="calendario.php?motivo=0&unidad=<?php  echo $unidad_mina_sel; ?>"><h5>Acumulados de Muestras</h5></a></li>
-                        </ul>
-                   </div>
-                
-              </div>
-          </div> 
-          
-                
-      </div>
-    </div> --!>
- 
-   
-
-   
