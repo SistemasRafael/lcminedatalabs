@@ -33,7 +33,6 @@
 </script>
 
 <style type="text/css">
-
     .btnSubmit {
         width: 50%;
         border-radius: 1rem;
@@ -119,12 +118,10 @@
         <br /><br /><br /><br /><br /><br />
         <?php
         $mysqli->set_charset("utf8");
-        //$query = "CALL arg_rpt_pesajesMuestras(0, 0, 0)";
-        // echo $fecha_i; echo $fecha_f;
-        $query = "CALL arg_rpt_pesajesMuestras2(null, null, null, '','".$fecha_f."')";
-        var_dump($query);
-        // mysqli_multi_query($mysqli, $query);
-        // $result = $mysqli->store_result();
+        $query = "CALL arg_rpt_pesajesMuestras(0, 0, 0, '".$fecha_i."','".$fecha_f."')";
+        //$query = "CALL arg_rpt_pesajesMuestras2(null, null, null, '".$fecha_i."','".$fecha_f."', 1, 500)";
+        mysqli_multi_query($mysqli, $query);
+        $result = $mysqli->store_result();
 
         $html_det = "<table class='table table-striped' id='motivos'>
                                 <thead>
@@ -151,31 +148,30 @@
                                </thead>
                                <tbody>";
 
-        // $num = 1;
-        // while ($fila = $result->fetch_row()) {
-        //     $html_det .= "<tr>";
-        //     $html_det .= "<td>" . $num . "</td>";
-        //     $html_det .= "<td>" . $fila[0] . "</td>";
-        //     $html_det .= "<td>" . $fila[1] . "</td>";
-        //     $html_det .= "<td>" . $fila[2] . "</td>";
-        //     //$html_det .= "<td>" . $fila[3] . "</td>";
-        //     $html_det .= "<td>" . $fila[4] . "</td>";
-        //     $html_det .= "<td>" . $fila[5] . "</td>";
-        //     $html_det .= "<td>" . $fila[6] . "</td>";
-        //     $html_det .= "<td>" . $fila[7] . "</td>";
-        //     $html_det .= "<td>" . $fila[8] . "</td>";
-        //     $html_det .= "<td>" . $fila[9] . "</td>";
-        //     $html_det .= "<td>" . $fila[10] . "</td>";
-        //     $html_det .= "<td>" . $fila[11] . "</td>";
-        //     $html_det .= "<td>" . $fila[12] . "</td>";
-        //     $html_det .= "<td>" . $fila[13] . "</td>";
-        //     $html_det .= "<td>" . $fila[14] . "</td>";
-        //     $html_det .= "<td>" . $fila[15] . "</td>";
-        //     $html_det .= "<td>" . $fila[16] . "</td>";
-        //     $html_det .= "<td>" . $fila[17] . "</td>";
-        //     $html_det .= "</tr>";
-        //     $num = $num + 1;
-        // }
+        $num = 1;
+        while ($fila = $result->fetch_row()) {
+            $html_det .= "<tr>";
+            $html_det .= "<td>" . $num . "</td>";
+            $html_det .= "<td>" . $fila[0] . "</td>";
+            $html_det .= "<td>" . $fila[1] . "</td>";
+            $html_det .= "<td>" . $fila[2] . "</td>";
+            $html_det .= "<td>" . $fila[4] . "</td>";
+            $html_det .= "<td>" . $fila[5] . "</td>";
+            $html_det .= "<td>" . $fila[6] . "</td>";
+            $html_det .= "<td>" . $fila[7] . "</td>";
+            $html_det .= "<td>" . $fila[8] . "</td>";
+            $html_det .= "<td>" . $fila[9] . "</td>";
+            $html_det .= "<td>" . $fila[10] . "</td>";
+            $html_det .= "<td>" . $fila[11] . "</td>";
+            $html_det .= "<td>" . $fila[12] . "</td>";
+            $html_det .= "<td>" . $fila[13] . "</td>";
+            $html_det .= "<td>" . $fila[14] . "</td>";
+            $html_det .= "<td>" . $fila[15] . "</td>";
+            $html_det .= "<td>" . $fila[16] . "</td>";
+            $html_det .= "<td>" . $fila[17] . "</td>";
+            $html_det .= "</tr>";
+            $num = $num + 1;
+        }
         $html_det .= "</tbody></table>";
         echo ("$html_det");
         ?>
@@ -191,8 +187,7 @@
                      
         var fecha_i = document.getElementById('fecha_inicial').value;
         var fecha_f = document.getElementById('fecha_final').value;
-
-        //orden = 0
+        
         var exportar = '<?php echo "\ exportar_pesajes_muestras.php?metodo_sel=" ?>' + metodo_sel + '&tipo_mues=' + tipo_mues + '&orden=' + orden + '&fecha_i=' + fecha_i+ '&fecha_f=' + fecha_f;
         window.location.href = exportar;
     }
@@ -203,8 +198,7 @@
         var orden = document.getElementById('caja_orden').value;               
         var fecha_i = document.getElementById('fecha_inicial').value;
         var fecha_f = document.getElementById('fecha_final').value;
-        //alert(fecha_i);
-        //orden = 0;
+        
         $.ajax({
                 url: 'reporte_pesajes_muestras.php',
                 type: 'POST',

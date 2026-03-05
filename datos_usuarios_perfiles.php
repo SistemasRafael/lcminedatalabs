@@ -1,9 +1,10 @@
-<?include "connections/config.php";?>
 <?php
-//$html = '';
+include "connections/config.php";
 $u_id = $_SESSION['u_id'];
 $u_id_ver = $_POST['u_id_ver'];
-    
+
+$html = "";
+
 if (isset($u_id_ver)){
         $datos_user = $mysqli->query("SELECT DISTINCT
                                         pv.perfil_id,
@@ -12,7 +13,7 @@ if (isset($u_id_ver)){
                                         up.fecha_inicial,
                                         up.fecha_final,
                                         (CASE WHEN up.activo = 1 THEN 'SI' ELSE 'NO' END) AS activo,
-                                    ure.nombre AS usuario_resp
+                                        ure.nombre AS usuario_resp
                                     FROM
                                         `perfiles_privilegios` AS pv
                                     LEFT JOIN arg_usuarios_perfiles AS up
@@ -22,9 +23,8 @@ if (isset($u_id_ver)){
                                     ON
                                         ure.u_id = up.u_id_resp
                                     WHERE
-                                        pv.u_id = ".$u_id_ver) or die(mysqli_error());
-        //$datos_user_perfiles = $datos_user ->fetch_array(MYSQLI_ASSOC);
-        //$usuario = $datos_user['nombre'];
+                                        pv.u_id = ".$u_id_ver
+                                ) or die(mysqli_error($mysqli));
         
         $html.=  "<table class='table text-black' id='tabla_pesaje_met'>
                                 <thead class='thead-info' align='center'>"; 
@@ -34,8 +34,8 @@ if (isset($u_id_ver)){
                                         <th>Activo</th> 
                                         <th>Feha Inicial</th> 
                                         <th>Fecha Final</th>                                        
-                                        <th>Menús</th>
-                                        <th>Transacción</th> 
+                                        <th>Menï¿½s</th>
+                                        <th>Transacciï¿½n</th> 
                                         <th>Atributos</th>                   
                                 </thead>
                                 <tbody>";
@@ -76,5 +76,4 @@ if (isset($u_id_ver)){
   
 $mysqli -> set_charset("utf8");
 echo utf8_encode($html);
-
 ?>
