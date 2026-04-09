@@ -1,4 +1,4 @@
-<?include "connections/config.php";?>
+<?php include "connections/config.php";?>
 <?php
 $html = '';
 $trn_id = $_POST['trn_id_sec'];

@@ -1,4 +1,4 @@
-   <? // include "connections/config.php";
+   <?php
         $trn_id_abs = $_GET['trn_id_abs'];
         $metodo_id_abs = $_GET['metodo_id_abs'];
         $u_id_abs = $_SESSION['u_id'];
@@ -86,12 +86,6 @@
  </script>
  
 <style type="text/css">
-	.izq{
-		background-color:;
-	}
-	.derecha{
-		background-color:;
-	}
 	.btnSubmit
     {
         width: 50%;
@@ -125,10 +119,10 @@ if (isset($_GET['trn_id_abs'])){
                                        LEFT JOIN arg_usuarios us
                                             ON us.u_id = ord.usuario_id
                                        WHERE det.trn_id = ".$trn_id_abs
-                                   ) or die(mysqli_error());               
+                                   ) or die(mysqli_error($mysqli));               
     $orden_encabezado = $datos_orden->fetch_assoc(); 
     
-    $datos_metodo = $mysqli->query("SELECT nombre, elemento FROM `arg_metodos` WHERE metodo_id = ".$metodo_id) or die(mysqli_error());               
+    $datos_metodo = $mysqli->query("SELECT nombre, elemento FROM `arg_metodos` WHERE metodo_id = ".$metodo_id) or die(mysqli_error($mysqli));               
     $metodo = $datos_metodo->fetch_assoc(); 
     $metodo_nombre = $metodo['nombre'];
     $elemento      = $metodo['elemento'];
@@ -140,7 +134,7 @@ if (isset($_GET['trn_id_abs'])){
                                            WHERE `trn_id` = ".$trn_id_abs." 
                                              AND metodo_id = ".$metodo_id." 
                                              AND reensaye = 0"
-                                   ) or die(mysqli_error());               
+                                   ) or die(mysqli_error($mysqli));               
         $existe_revi = $existe_revision->fetch_assoc();
         $existe_rev = $existe_revi['total_revision'];
     }
@@ -149,29 +143,29 @@ if (isset($_GET['trn_id_abs'])){
            <br/>
            <br/>                
                 <div class="col-2 col-md-2 col-lg-2">
-                    <button type='button' class='btn btn-primary' onclick='liberar_res(<? echo $trn_id_abs.", ".$metodo_id.", ".$u_id_abs.", ".$unidad_id?>)' >
+                    <button type='button' class='btn btn-primary' onclick='liberar_res(<?php  echo $trn_id_abs.", ".$metodo_id.", ".$u_id_abs.", ".$unidad_id?>)' >
                         <span class='fa fa-envelope-o fa-2x'> Liberar </span>
                     </button>
                 </div>
                
-                 <?
+                 <?php 
                     if ($orden_encabezado['tipo'] == 2){ 
                     ?> 
                     <div class="col-1 col-md-1 col-lg-1">
-                        <button type='button' class='btn btn-danger' onclick='deshacer_rev(<? echo $trn_id_abs.", ".$metodo_id.", ".$u_id_abs.", ".$unidad_id?>)' >
+                        <button type='button' class='btn btn-danger' onclick='deshacer_rev(<?php  echo $trn_id_abs.", ".$metodo_id.", ".$u_id_abs.", ".$unidad_id?>)' >
                             <span class='fa fa-trash-o fa-2x'> Deshacer Lectura </span>
                         </button>
                     </div>              
-                     <?
+                     <?php 
                    }
                    if ($existe_rev == 0){ 
                     ?> 
                     <div class="col-1 col-md-1 col-lg-1">
-                        <button type='button' class='btn btn-danger' onclick='deshacer_rev_solidas(<? echo $trn_id_abs.", ".$metodo_id.", ".$u_id_abs.", ".$unidad_id?>)' >
+                        <button type='button' class='btn btn-danger' onclick='deshacer_rev_solidas(<?php  echo $trn_id_abs.", ".$metodo_id.", ".$u_id_abs.", ".$unidad_id?>)' >
                             <span class='fa fa-trash-o fa-2x'> Deshacer Revisión </span>
                         </button>
                     </div>              
-                     <?
+                     <?php 
                    }
                  
    
@@ -248,7 +242,7 @@ if (isset($_GET['trn_id_abs'])){
                     ?>
                      <br/> <br/>
                      <div class="container">            
-                      <?                 
+                      <?php                  
                          $hoy = date("Y-m-d H:i:s");                 
                          $html_en = "<table class='table table-striped' id='encabezado'>
                                      <thead>
@@ -345,8 +339,6 @@ if (isset($_GET['trn_id_abs'])){
     ?>
     </div>     
 </div>
-<?
+<?php 
 }
-?>                    
-          
-
+?>
