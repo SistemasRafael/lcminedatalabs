@@ -86,47 +86,50 @@
               actualizar_prep(unidad_id);
         }
           
-  function iniciar_etapa(trn_id, etapa, unidad)
-        {               
-            trn_id = trn_id;
-            unidad_id = unidad;
-            etapa_id = etapa;
-            document.getElementById("mina").value = unidad; 
-            document.getElementById("mina_secado").value = unidad; 
-            //alert(etapa_id);           
-            $.ajax({
-            		url: 'iniciar_etapa.php' ,
-            		type: 'POST' ,
-            		dataType: 'html',
-            		data: {trn_id:trn_id,etapa_id:etapa_id},
-            	})
-            	.done(function(respuesta){ 
-                   // alert(respuesta);
-                    if(etapa_id == 1){
-                        $('#secado_modal').modal('show');
-                        $("#datos_secado").html(respuesta);
-                        $('#secado_modal').on('shown.bs.modal', function (e) {
-                            $(this).find('#peso1').focus();
-                        })          
-                    }
-                    if(etapa_id == 2){
-                        //alert(respuesta);
-                        $('#quebrado_modal').modal('show');
-                        $("#datos_quebrado").html(respuesta);
-                        $('#quebrado_modal').on('shown.bs.modal', function (e) {
-                            $(this).find('#peso_que1').focus();
-                        })
-                    }
-                    if (etapa_id == 3){
-                        $('#pulverizado_modal').modal('show');
-                        $("#datos_pulverizado").html(respuesta);
-                        $('#pulverizado_modal').on('shown.bs.modal', function (e) {
-                                $(this).find('#peso_pul1').focus();
-                        })
-                        $('#pulverizado_modal').modal('show').trigger('shown');
-                    }
-             })
-        }
+    function iniciar_etapa(trn_id, etapa, unidad)
+    {               
+        trn_id = trn_id;
+        unidad_id = unidad;
+        etapa_id = etapa;
+        document.getElementById("mina").value = unidad; 
+        document.getElementById("mina_secado").value = unidad; 
+
+        $.ajax({
+            url: 'iniciar_etapa.php' ,
+            type: 'POST' ,
+            dataType: 'html',
+            data: {
+                trn_id : trn_id,
+                etapa_id : etapa_id
+            },
+        })
+        .done(function(respuesta){
+            if(etapa_id == 1) {
+                $('#secado_modal').modal('show');
+                $("#datos_secado").html(respuesta);
+                $('#secado_modal').on('shown.bs.modal', function (e) {
+                    $(this).find('#peso1').focus();
+                })          
+            }
+            
+            if(etapa_id == 2) {
+                $('#quebrado_modal').modal('show');
+                $("#datos_quebrado").html(respuesta);
+                $('#quebrado_modal').on('shown.bs.modal', function (e) {
+                    $(this).find('#peso_que1').focus();
+                })
+            }
+            
+            if (etapa_id == 3) {
+                $('#pulverizado_modal').modal('show');
+                $("#datos_pulverizado").html(respuesta);
+                $('#pulverizado_modal').on('shown.bs.modal', function (e) {
+                        $(this).find('#peso_pul1').focus();
+                })
+                $('#pulverizado_modal').modal('show').trigger('shown');
+            }
+        });
+    }
         
    function iniciar_etapa_reen(trn_id, etapa, unidad)
         {               

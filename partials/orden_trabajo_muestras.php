@@ -74,8 +74,8 @@ if (isset($_GET['trn_id'])){
     
     if (isset($_GET['metodo_id_sel'])){
         $metodo_id = $_GET['metodo_id_sel'];
-        echo 'aqui'.$metodo_id;
     }
+    
     $trn_id = $_GET['trn_id'];
     $unidad_id = $_GET['unidad_id'];
     $datos_orden = $mysqli->query("SELECT
