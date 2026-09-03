@@ -1,14 +1,12 @@
-<?include "connections/config.php";?>
+<?php include "connections/config.php";?>
 
-<!--<link href="http://192.168.20.3:81/__pro/argonaut/boostrapp/css/check.css" rel="stylesheet">--!>
-<!--<link href="http://192.168.20.22/intranet-spa/css/check.css" rel="stylesheet"> --!>
 <?php
 $html = '';
 $trn_id    = $_POST['trn_id'];
 $metodo_id = $_POST['metodo'];
 $fase_id   = $_POST['fase'];
 $etapa_id  = $_POST['etapa'];
-$u_id      = $_SESSION['u_id'];
+$u_id      = $_SESSION['u_id'] ?? '';
 $unidad_id = $_POST['unidad_tem'];
 //echo 'aqui'.$fase_id.' '.$trn_id;
 if (isset($trn_id)){    
@@ -45,7 +43,7 @@ if (isset($trn_id)){
                                         AND ob.fase_id = ".$fase_id."
                                         AND ob.etapa_id = ".$etapa_id."
                                     ORDER BY ob.fecha DESC
-                                    LIMIT 1") or die(mysqli_error());
+                                    LIMIT 1") or die(mysqli_error($mysqli));
                                     
    $tipo_orden = $mysqli->query("SELECT 
                                     (CASE WHEN ord.trn_id_rel = 0 THEN 0 ELSE 1 END) AS reensaye
@@ -53,7 +51,7 @@ if (isset($trn_id)){
                                 FROM arg_ordenes ord
                                 LEFT JOIN arg_ordenes_detalle odet
                                     ON ord.trn_id =  odet.trn_id_rel
-                                WHERE odet.trn_id = ".$trn_id) or die(mysqli_error());             
+                                WHERE odet.trn_id = ".$trn_id) or die(mysqli_error($mysqli));             
    $tipo_ord = $tipo_orden->fetch_assoc();
    $reensaye = $tipo_ord['reensaye'];
    $orden_trabajo = $tipo_ord['folio_interno'];
@@ -96,7 +94,7 @@ if (isset($trn_id)){
                                                    WHERE
                                                         pul.trn_id = ".$trn_id." 
                                                         AND pul.metodo_id = ".$metodo_id
-                                                   ) or die(mysqli_error());
+                                                   ) or die(mysqli_error($mysqli));
                     
                  if ($existen_peso->num_rows > 0) {
                         if($reensaye == 0){
@@ -114,7 +112,7 @@ if (isset($trn_id)){
                                                             AND pul.trn_id_rel = ot.trn_id_rel
                                                       WHERE
                                                          pul.peso = 0 AND pul.trn_id = ".$trn_id." AND pul.metodo_id = ".$metodo_id." ORDER BY ot.folio_interno") 
-                                                  or die(mysqli_error());                    
+                                                  or die(mysqli_error($mysqli));                    
                         }
                         else{
                             $origen_reen = $mysqli->query("SELECT 
@@ -149,7 +147,7 @@ if (isset($trn_id)){
                                                          pul.peso = 0 AND pul.trn_id = ".$trn_id." 
                                                          AND pul.metodo_id = ".$metodo_id." 
                                                       ORDER BY ot.folio_interno") 
-                                                or die(mysqli_error()); 
+                                                or die(mysqli_error($mysqli)); 
                                     }
                                     else{
                                         $peso_det = $mysqli->query("SELECT
@@ -168,7 +166,7 @@ if (isset($trn_id)){
                                                          pul.peso = 0 AND pul.trn_id = ".$trn_id." 
                                                          AND pul.metodo_id = ".$metodo_id." 
                                                       ORDER BY ot.folio_interno") 
-                                                or die(mysqli_error()); 
+                                                or die(mysqli_error($mysqli)); 
                                     }
                         }
                         while ($res_muestras = $peso_det->fetch_assoc()) {
@@ -224,7 +222,7 @@ if (isset($trn_id)){
                                                                                 ade1.tipo_id <> 0 AND ade1.metodo_id = ".$metodo_id." AND ade1.trn_id_batch = ".$trn_id."
                                                                             ORDER BY (FLOOR (1+RAND()*".$total."))
                                                                             LIMIT ".$limite.") AS x 
-                                                        ORDER BY bloque, posicion")   or die(mysqli_error());
+                                                        ORDER BY bloque, posicion")   or die(mysqli_error($mysqli));
                         }
                         else{
                                 $origen_reen = $mysqli->query("SELECT 
@@ -252,7 +250,7 @@ if (isset($trn_id)){
                                                               WHERE trn_id_rel = ".$trn_id." 
                                                                     AND metodo_id = ".$metodo_id."
                                                               ORDER BY folio_interno"
-                                                             ) or die(mysqli_error());
+                                                             ) or die(mysqli_error($mysqli));
                                     }
                                     else{
                                         $resultado_mues = $mysqli->query("SELECT
@@ -265,7 +263,7 @@ if (isset($trn_id)){
                                                               WHERE trn_id_rel = ".$trn_id." 
                                                                     AND metodo_id = ".$metodo_id."
                                                               ORDER BY folio_interno"
-                                                             ) or die(mysqli_error());
+                                                             ) or die(mysqli_error($mysqli));
                                     }
                         }
                         while ($res_muestras = $resultado_mues->fetch_assoc()) {
@@ -320,7 +318,7 @@ if (isset($trn_id)){
                                                                             WHERE
                                                                                 ade1.tipo_id <> 0 AND ade1.metodo_id = ".$metodo_id." AND ade1.trn_id_batch = ".$trn_id."
                                                                     ORDER BY (FLOOR (1+RAND()*".$total."))
-                                                                LIMIT ".$limite.") AS x ORDER BY bloque, posicion")   or die(mysqli_error());
+                                                                LIMIT ".$limite.") AS x ORDER BY bloque, posicion")   or die(mysqli_error($mysqli));
                         }
                         else{                            
                             $resultado_mues = $mysqli->query(" SELECT * FROM  
@@ -333,7 +331,7 @@ if (isset($trn_id)){
                                                                         `ordenes_reensayes`                                                                        
                                                                     WHERE tipo_id = 0 AND trn_id_batch = ".$trn_id." AND metodo_id = ".$metodo_id."
                                                                     ORDER BY (FLOOR (1+RAND()*".$total."))
-                                                                LIMIT ".$limite.") AS x ORDER BY muestra")   or die(mysqli_error());
+                                                                LIMIT ".$limite.") AS x ORDER BY muestra")   or die(mysqli_error($mysqli));
                         }
                          while ($res_muestras = $resultado_mues->fetch_assoc()) {                                              
                             $html.="<tr>
@@ -387,7 +385,7 @@ if (isset($trn_id)){
                                                                             WHERE
                                                                                 ade1.tipo_id <> 0 AND ade1.metodo_id = ".$metodo_id." AND ade1.trn_id_batch = ".$trn_id."
                                                                                 AND posicion = ".$posicion.") AS x 
-                                                        ORDER BY bloque, posicion") or die(mysqli_error());
+                                                        ORDER BY bloque, posicion") or die(mysqli_error($mysqli));
                          }
                          else{
                             $resultado_mues = $mysqli->query("SELECT * FROM  (SELECT
@@ -398,7 +396,7 @@ if (isset($trn_id)){
                                                         FROM 
                                                             `ordenes_reensayes` 
                                                         WHERE tipo_id = 0 AND trn_id_rel = ".$trn_id." AND metodo_id = ".$metodo_id.") AS x 
-                                                        ORDER BY muestra") or die(mysqli_error());
+                                                        ORDER BY muestra") or die(mysqli_error($mysqli));
                          }             
                          
                        if ($resultado_mues->num_rows > 0) {
@@ -474,7 +472,7 @@ if (isset($trn_id)){
                                                    WHERE
                                                         pul.trn_id = ".$trn_id." 
                                                         AND pul.metodo_id = ".$metodo_id
-                                                   ) or die(mysqli_error());
+                                                   ) or die(mysqli_error($mysqli));
                     
                  if ($existen_peso->num_rows > 0) {
                         if($reensaye == 0){
@@ -492,7 +490,7 @@ if (isset($trn_id)){
                                                             AND pul.trn_id_rel = ot.trn_id_rel
                                                       WHERE
                                                          pul.peso = 0 AND pul.trn_id = ".$trn_id." AND pul.metodo_id = ".$metodo_id." ORDER BY ot.folio_interno") 
-                                                  or die(mysqli_error());                    
+                                                  or die(mysqli_error($mysqli));                    
                         }
                         else{
                             $origen_reen = $mysqli->query("SELECT 
@@ -526,7 +524,7 @@ if (isset($trn_id)){
                                                          pul.peso = 0 AND pul.trn_id = ".$trn_id." 
                                                          AND pul.metodo_id = ".$metodo_id." 
                                                       ORDER BY ot.folio_interno") 
-                                                or die(mysqli_error());
+                                                or die(mysqli_error($mysqli));
                                     }
                                     else{
                                             $peso_det = $mysqli->query("SELECT
@@ -545,7 +543,7 @@ if (isset($trn_id)){
                                                          pul.peso = 0 AND pul.trn_id = ".$trn_id." 
                                                          AND pul.metodo_id = ".$metodo_id." 
                                                       ORDER BY ot.folio_interno") 
-                                                or die(mysqli_error());
+                                                or die(mysqli_error($mysqli));
                                     }
                         }
                         while ($res_muestras = $peso_det->fetch_assoc()) {
@@ -601,7 +599,7 @@ if (isset($trn_id)){
                                                                                 ade1.tipo_id <> 0 AND ade1.metodo_id = ".$metodo_id." AND ade1.trn_id_batch = ".$trn_id."
                                                                             ORDER BY (FLOOR (1+RAND()*".$total."))
                                                                             LIMIT ".$limite.") AS x 
-                                                        ORDER BY bloque, posicion")   or die(mysqli_error());
+                                                        ORDER BY bloque, posicion")   or die(mysqli_error($mysqli));
                         }
                         else{
                                $origen_reen = $mysqli->query("SELECT 
@@ -629,7 +627,7 @@ if (isset($trn_id)){
                                                               WHERE trn_id_rel = ".$trn_id." 
                                                                     AND metodo_id = ".$metodo_id."
                                                               ORDER BY folio_interno"
-                                                             ) or die(mysqli_error());
+                                                             ) or die(mysqli_error($mysqli));
                                     }
                                     else{
                                         $resultado_mues = $mysqli->query("SELECT
@@ -642,7 +640,7 @@ if (isset($trn_id)){
                                                               WHERE trn_id_rel = ".$trn_id." 
                                                                     AND metodo_id = ".$metodo_id."
                                                               ORDER BY folio_interno"
-                                                             ) or die(mysqli_error());
+                                                             ) or die(mysqli_error($mysqli));
                                     }
                         }
                         while ($res_muestras = $resultado_mues->fetch_assoc()) {
@@ -712,7 +710,7 @@ if (isset($trn_id)){
                                                    WHERE
                                                         pul.trn_id = ".$trn_id." 
                                                         AND pul.metodo_id = ".$metodo_id
-                                                   ) or die(mysqli_error());
+                                                   ) or die(mysqli_error($mysqli));
                     
                  if ($existen_peso->num_rows > 0) {
                         if($reensaye == 0){
@@ -733,7 +731,7 @@ if (isset($trn_id)){
                                                          AND pul.trn_id = ".$trn_id." 
                                                          AND pul.metodo_id = ".$metodo_id." 
                                                       ORDER BY ot.folio_interno") 
-                                                  or die(mysqli_error());                    
+                                                  or die(mysqli_error($mysqli));                    
                         }
                         else{
                             $origen_reen = $mysqli->query("SELECT 
@@ -768,7 +766,7 @@ if (isset($trn_id)){
                                                          AND pul.trn_id = ".$trn_id." 
                                                          AND pul.metodo_id = ".$metodo_id." 
                                                       ORDER BY ot.folio_interno") 
-                                                or die(mysqli_error());
+                                                or die(mysqli_error($mysqli));
                                     }
                                     else{
                                         $peso_det = $mysqli->query("SELECT
@@ -788,7 +786,7 @@ if (isset($trn_id)){
                                                          AND pul.trn_id = ".$trn_id." 
                                                          AND pul.metodo_id = ".$metodo_id." 
                                                       ORDER BY ot.folio_interno") 
-                                                or die(mysqli_error());
+                                                or die(mysqli_error($mysqli));
                                     }
                         }
                         while ($res_muestras = $peso_det->fetch_assoc()) {
@@ -846,7 +844,7 @@ if (isset($trn_id)){
                                                                                 ade1.tipo_id <> 0 AND ade1.metodo_id = ".$metodo_id." AND ade1.trn_id_batch = ".$trn_id."
                                                                             ORDER BY (FLOOR (1+RAND()*".$total."))
                                                                             LIMIT ".$limite.") AS x 
-                                                        ORDER BY bloque, posicion")   or die(mysqli_error());
+                                                        ORDER BY bloque, posicion")   or die(mysqli_error($mysqli));
                         }
                         else{
                             $resultado_mues = $mysqli->query("SELECT
@@ -859,7 +857,7 @@ if (isset($trn_id)){
                                                               WHERE trn_id_rel = ".$trn_id." 
                                                                     AND metodo_id = ".$metodo_id."
                                                               ORDER BY folio_interno"
-                                                             ) or die(mysqli_error());
+                                                             ) or die(mysqli_error($mysqli));
                         }
                         while ($res_muestras = $resultado_mues->fetch_assoc()) {
                             //$con = $res_muestras['posicion'];
@@ -917,7 +915,7 @@ if (isset($trn_id)){
                             </thead>
                             <tbody>
                             <tr>";                             
-                                $result_h = $mysqli->query("SELECT  ins_id, nombre FROM arg_instrumentos WHERE etapa_id = 8") or die(mysqli_error());   
+                                $result_h = $mysqli->query("SELECT  ins_id, nombre FROM arg_instrumentos WHERE etapa_id = 8") or die(mysqli_error($mysqli));   
                                 $html.="<td><select name='ins_id' id='ins_id' class='form-control'>";                          
                                 while ( $row2 = $result_h ->fetch_assoc()) {
                                     $instrumento = $row2['nombre'];
@@ -997,7 +995,7 @@ if (isset($trn_id)){
                                                                     AND ot1.tipo_id <> 0
                                                                     AND mr.metodo_id = ".$metodo_id." 
                                                                     AND mr.trn_id = ".$trn_id."
-                                                              ORDER BY muestra") or die(mysqli_error());
+                                                              ORDER BY muestra") or die(mysqli_error($mysqli));
                   }
                   else{
                         $origen_reen = $mysqli->query("SELECT 
@@ -1030,7 +1028,7 @@ if (isset($trn_id)){
                                                               pul.peso_payon = 0 
                                                               AND pul.metodo_id = ".$metodo_id." 
                                                               AND pul.trn_id = ".$trn_id."
-                                                           ORDER BY ot.folio_interno") or die(mysqli_error());
+                                                           ORDER BY ot.folio_interno") or die(mysqli_error($mysqli));
                                     }
                                     else{
                                         $existen_peso_pay = $mysqli->query("SELECT
@@ -1048,7 +1046,7 @@ if (isset($trn_id)){
                                                               pul.peso_payon = 0 
                                                               AND pul.metodo_id = ".$metodo_id." 
                                                               AND pul.trn_id = ".$trn_id."
-                                                           ORDER BY ot.folio_interno") or die(mysqli_error());
+                                                           ORDER BY ot.folio_interno") or die(mysqli_error($mysqli));
                                     }
                   }
                   
@@ -1154,7 +1152,7 @@ if (isset($trn_id)){
                                                                     AND ot1.tipo_id <> 0
                                                                     AND mr.metodo_id = ".$metodo_id." 
                                                                     AND mr.trn_id = ".$trn_id."
-                                                              ORDER BY muestra") or die(mysqli_error());
+                                                              ORDER BY muestra") or die(mysqli_error($mysqli));
                   }
                   else{
                         $origen_reen = $mysqli->query("SELECT 
@@ -1187,7 +1185,7 @@ if (isset($trn_id)){
                                                               pul.peso_dore = 0 
                                                               AND pul.metodo_id = ".$metodo_id." 
                                                               AND pul.trn_id = ".$trn_id."
-                                                           ORDER BY ot.folio_interno") or die(mysqli_error());
+                                                           ORDER BY ot.folio_interno") or die(mysqli_error($mysqli));
                                     }
                                     else{
                                         $existen_peso_dore = $mysqli->query("SELECT
@@ -1205,7 +1203,7 @@ if (isset($trn_id)){
                                                               pul.peso_dore = 0 
                                                               AND pul.metodo_id = ".$metodo_id." 
                                                               AND pul.trn_id = ".$trn_id."
-                                                           ORDER BY ot.folio_interno") or die(mysqli_error());
+                                                           ORDER BY ot.folio_interno") or die(mysqli_error($mysqli));
                                     }
                   }
                   
@@ -1335,7 +1333,7 @@ if (isset($trn_id)){
                                                   FROM 
                                                     arg_muestras_resultados pul
                                                   WHERE
-                                                     pul.trn_id = ".$trn_id." AND pul.metodo_id = ".$metodo_id) or die(mysqli_error());
+                                                     pul.trn_id = ".$trn_id." AND pul.metodo_id = ".$metodo_id) or die(mysqli_error($mysqli));
             
                  if ($existen_peso->num_rows > 0) {
                         if($reensaye == 0){                        
@@ -1353,7 +1351,7 @@ if (isset($trn_id)){
                                                                 AND pul.trn_id_rel = ot.trn_id_rel
                                                           WHERE
                                                              pul.metodo_id = ".$metodo_id." AND pul.peso = 0 AND pul.trn_id = ".$trn_id."
-                                                          ORDER BY ot.folio_interno") or die(mysqli_error());
+                                                          ORDER BY ot.folio_interno") or die(mysqli_error($mysqli));
                         }
                         else{
                             $peso_det = $mysqli->query("SELECT
@@ -1372,7 +1370,7 @@ if (isset($trn_id)){
                                                          pul.peso = 0 AND pul.trn_id = ".$trn_id." 
                                                       AND pul.metodo_id = ".$metodo_id." 
                                                       ORDER BY ot.folio_interno") 
-                                                or die(mysqli_error()); 
+                                                or die(mysqli_error($mysqli)); 
                         }            
                         while ($res_muestras = $peso_det->fetch_assoc()) {
                             //$con = $res_muestras['posicion'];
@@ -1427,7 +1425,7 @@ if (isset($trn_id)){
                                                                                 ade1.tipo_id <> 0 AND ade1.metodo_id = ".$metodo_id." AND ade1.trn_id_batch = ".$trn_id."
                                                                             ORDER BY (FLOOR (1+RAND()*".$total."))
                                                                             LIMIT ".$limite.") AS x 
-                                                        ORDER BY bloque, posicion")   or die(mysqli_error());
+                                                        ORDER BY bloque, posicion")   or die(mysqli_error($mysqli));
                         }
                         else{
                                 $resultado_mues = $mysqli->query("SELECT
@@ -1440,7 +1438,7 @@ if (isset($trn_id)){
                                                                   WHERE 
                                                                         trn_id_rel = ".$trn_id." 
                                                                         AND metodo_id = ".$metodo_id
-                                                                )   or die(mysqli_error());
+                                                                )   or die(mysqli_error($mysqli));
                         }
                         while ($res_muestras = $resultado_mues->fetch_assoc()) {
                             //$con = $res_muestras['posicion'];
@@ -1477,7 +1475,7 @@ if (isset($trn_id)){
                                                     FROM 
                                                         `ordenes_transacciones` WHERE tipo_id = 0 AND trn_id_batch = ".$trn_id." AND metodo_id = ".$metodo_id."
                                                     ORDER BY (FLOOR (1+RAND()*".$total."))
-                                                    LIMIT ".$limite.") AS x ORDER BY bloque, posicion")   or die(mysqli_error());
+                                                    LIMIT ".$limite.") AS x ORDER BY bloque, posicion")   or die(mysqli_error($mysqli));
                          while ($res_muestras = $resultado_mues->fetch_assoc()) {
                                               
                             $html.="<tr>
@@ -1515,7 +1513,7 @@ if (isset($trn_id)){
                                                         FROM 
                                                             `ordenes_transacciones` 
                                                         WHERE tipo_id = 0 AND trn_id_batch = ".$trn_id." AND metodo_id = ".$metodo_id." AND posicion = ".$posicion.") AS x 
-                                                        ORDER BY bloque, posicion") or die(mysqli_error());
+                                                        ORDER BY bloque, posicion") or die(mysqli_error($mysqli));
                      
                        if ($resultado_mues->num_rows > 0) {
                            $res_muestras = $resultado_mues->fetch_assoc();
@@ -1585,7 +1583,7 @@ if (isset($trn_id)){
                                                   WHERE
                                                      pul.trn_id = ".$trn_id." 
                                                      AND pul.metodo_id = ".$metodo_id."
-                                                 ") or die(mysqli_error());
+                                                 ") or die(mysqli_error($mysqli));
             
                  if ($existen_peso->num_rows > 0) {
                         if($reensaye == 0){                        
@@ -1603,7 +1601,7 @@ if (isset($trn_id)){
                                                         AND pul.trn_id_rel = ot.trn_id_rel
                                                   WHERE
                                                      pul.metodo_id = ".$metodo_id." AND pul.peso = 0 AND pul.trn_id = ".$trn_id."
-                                                  ORDER BY ot.folio_interno") or die(mysqli_error());
+                                                  ORDER BY ot.folio_interno") or die(mysqli_error($mysqli));
                         }
                         else{
                             $peso_det = $mysqli->query("SELECT
@@ -1622,7 +1620,7 @@ if (isset($trn_id)){
                                                          pul.peso = 0 AND pul.trn_id = ".$trn_id." 
                                                       AND pul.metodo_id = ".$metodo_id." 
                                                       ORDER BY ot.folio_interno") 
-                                                or die(mysqli_error()); 
+                                                or die(mysqli_error($mysqli)); 
                         }                    
                         while ($res_muestras = $peso_det->fetch_assoc()) {
                             //$con = $res_muestras['posicion'];
@@ -1677,7 +1675,7 @@ if (isset($trn_id)){
                                                                                 ade1.tipo_id <> 0 AND ade1.metodo_id = ".$metodo_id." AND ade1.trn_id_batch = ".$trn_id."
                                                                             ORDER BY (FLOOR (1+RAND()*".$total."))
                                                                             LIMIT ".$limite.") AS x 
-                                                        ORDER BY bloque, posicion")   or die(mysqli_error());
+                                                        ORDER BY bloque, posicion")   or die(mysqli_error($mysqli));
                         }
                         else{
                                 $resultado_mues = $mysqli->query("SELECT * FROM (SELECT
@@ -1690,7 +1688,7 @@ if (isset($trn_id)){
                                                                             WHERE trn_id_rel = ".$trn_id." AND metodo_id = ".$metodo_id."
                                                                             ORDER BY (FLOOR (1+RAND()*".$total."))
                                                                             LIMIT ".$limite.") AS x 
-                                                                ORDER BY folio_interno")   or die(mysqli_error());
+                                                                ORDER BY folio_interno")   or die(mysqli_error($mysqli));
                         }
                         $con = 1;
                         while ($res_muestras = $resultado_mues->fetch_assoc()) {
@@ -1730,7 +1728,7 @@ if (isset($trn_id)){
                                                     FROM 
                                                         `ordenes_transacciones` WHERE tipo_id = 0 AND trn_id_batch = ".$trn_id." AND metodo_id = ".$metodo_id."
                                                     ORDER BY (FLOOR (1+RAND()*".$total."))
-                                                    LIMIT ".$limite.") AS x ORDER BY bloque, posicion")   or die(mysqli_error());
+                                                    LIMIT ".$limite.") AS x ORDER BY bloque, posicion")   or die(mysqli_error($mysqli));
                          while ($res_muestras = $resultado_mues->fetch_assoc()) {
                                               
                             $html.="<tr>
@@ -1768,7 +1766,7 @@ if (isset($trn_id)){
                                                         FROM 
                                                             `ordenes_transacciones` 
                                                         WHERE tipo_id = 0 AND trn_id_batch = ".$trn_id." AND metodo_id = ".$metodo_id." AND posicion = ".$posicion.") AS x 
-                                                        ORDER BY bloque, posicion") or die(mysqli_error());
+                                                        ORDER BY bloque, posicion") or die(mysqli_error($mysqli));
                      
                        if ($resultado_mues->num_rows > 0) {
                            $res_muestras = $resultado_mues->fetch_assoc();
@@ -1993,7 +1991,7 @@ if (isset($trn_id)){
                                     <th>  </th>
                                     <tr class='table-primary' align='left'>
                                         <th colspan='4'>                                        
-                                            <form name='importa' method='post' action='$PHP_SELF' enctype='multipart/form-data' >
+                                            <form name='importa' method='post' action='' enctype='multipart/form-data' >
                                                 <input type='file' name='excel' />
                                                 </br>                                              
                                                <button type='input' class='btn btn-success' value='upload' name='action' >
@@ -2037,7 +2035,7 @@ if (isset($trn_id)){
                                                         WHERE
                                                              sol.trn_id_batch = ".$trn_id." 
                                                              AND sol.metodo_id = ".$metodo_id
-                                                         ) or die(mysqli_error());
+                                                         ) or die(mysqli_error($mysqli));
                     
                  if ($existen_titulacion->num_rows > 0) {                                         
                         $titulacion_det = $mysqli->query("SELECT 
@@ -2052,7 +2050,7 @@ if (isset($trn_id)){
                                                              os.metodo_id =  ".$metodo_id." 
                                                              AND os.resultado = 0 
                                                              AND os.trn_id_batch = ".$trn_id."
-                                                          ORDER BY os.folio_interno") or die(mysqli_error());
+                                                          ORDER BY os.folio_interno") or die(mysqli_error($mysqli));
                                         
                         while ($res_muestras = $titulacion_det->fetch_assoc()) {
                             //$con = $res_muestras['posicion'];

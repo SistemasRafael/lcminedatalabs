@@ -2427,62 +2427,64 @@
               <div class="modal-body"  style="font-size:4px;" class="col-md-12 col-lg-12" id="datos_importar">
               </div>
               <?php 
-              extract($_POST);        
-              if ($action == "upload") //si action tiene como valor UPLOAD haga algo (el value de este hidden es es UPLOAD iniciado desde el value
-                {
-                //cargamos el archivo al servidor con el mismo nombre(solo le agregue el sufijo bak_)            
-                    $archivo = $_FILES['excel']['name']; //captura el nombre del archivo
-                    $archivo = strtoupper($archivo);
-                    $tipo  = $_FILES['excel']['type']; //captura el tipo de archivo (2003 o 2007)
-                    ///$dest  = 'c:\\xampp\\htdocs\\__pro\\argonaut\\VinculosKpi'.'\\ '; //lugar donde se copiara el archivo
-                    $dest  = '/var/www/html/lcminedatalabs/absorcion'.'/ '; 
-                    //$dest  = '\\absorcion'.'\\ '; //lugar donde se copiara el archivo
-                   // $dest  = '/var/www/html/dgopruebas/absorcion'.'/ '; //lugar donde se copiara el archivo
+              extract($_POST);    
+              if (isset($action)) {    
+                if ($action == "upload") //si action tiene como valor UPLOAD haga algo (el value de este hidden es es UPLOAD iniciado desde el value
+                    {
+                    //cargamos el archivo al servidor con el mismo nombre(solo le agregue el sufijo bak_)            
+                        $archivo = $_FILES['excel']['name']; //captura el nombre del archivo
+                        $archivo = strtoupper($archivo);
+                        $tipo  = $_FILES['excel']['type']; //captura el tipo de archivo (2003 o 2007)
+                        ///$dest  = 'c:\\xampp\\htdocs\\__pro\\argonaut\\VinculosKpi'.'\\ '; //lugar donde se copiara el archivo
+                        $dest  = '/var/www/html/lcminedatalabs/absorcion'.'/ '; 
+                        //$dest  = '\\absorcion'.'\\ '; //lugar donde se copiara el archivo
                     // $dest  = '/var/www/html/dgopruebas/absorcion'.'/ '; //lugar donde se copiara el archivo
-                     $desti = rtrim($dest).$archivo;                        
-                    copy($_FILES['excel']['tmp_name'],$desti);
-                   /// echo $archivo_corto;
-                    $archivo_exis = $mysqli->query("SELECT folio FROM arg_ordenes_csv WHERE folio = '".$archivo."'") or die(mysqli_error($mysqli));             
-                    $archivo_exist = $archivo_exis->fetch_assoc();
-                    $archivo_ex = $archivo_exist['folio'];                   
-                    if($archivo_ex == $archivo){
-                        mysqli_multi_query ($mysqli, "UPDATE arg_ordenes_csv SET archivo_csv = '".$archivo."' WHERE folio = '".$archivo."'") OR DIE (mysqli_error($mysqli));
+                        // $dest  = '/var/www/html/dgopruebas/absorcion'.'/ '; //lugar donde se copiara el archivo
+                        $dest  = dirname(__DIR__).'\\absorcion'.'\\ '; //lugar donde se copiara el archivo
+                        $desti = rtrim($dest).$archivo;                   
+                        copy($_FILES['excel']['tmp_name'],$desti);
+                        $archivo_exis = $mysqli->query("SELECT folio FROM arg_ordenes_csv WHERE folio = '".$archivo."'") or die(mysqli_error($mysqli));             
+                        $archivo_exist = $archivo_exis->fetch_assoc();
+                        $archivo_ex = $archivo_exist['folio'];                   
+                        if($archivo_ex == $archivo){
+                            mysqli_multi_query ($mysqli, "UPDATE arg_ordenes_csv SET archivo_csv = '".$archivo."' WHERE folio = '".$archivo."'") OR DIE (mysqli_error($mysqli));
+                            
+                            echo "<script> ver_csv('$archivo');
+                            $('#progress_modal').modal('show');
+                            </script>";
+                        }              
+                        else{
+                            echo "<script> error_csv('$archivo');</script>";
+                        }
                         
-                        echo "<script> ver_csv('$archivo');
-                        $('#progress_modal').modal('show');
-                        </script>";
-                    }              
-                    else{
-                        echo "<script> error_csv('$archivo');</script>";
-                    }
-                    
-                    ///mysqli_multi_query ($mysqli, "CALL arg_prc_ordenPulverizado(".$trn_id.", ".$trn_id_rel.", ".$peso.", ".$peso_malla.", ".$porc_que.", ".$u_id.",".$final.", '".$coment."')") OR DIE (mysqli_error($mysqli)); 
-                   $action = '';
-                }
-                if ($action_quebr == "upload_quebr") 
-                {       
-                    $archivo = $_FILES['excel']['name']; //captura el nombre del archivo
-                    $archivo = strtoupper($archivo);
-                    $tipo  = $_FILES['excel']['type'];
-                    //$dest  = '/var/www/html/dgopruebas/absorcion'.'/ '; //lugar donde se copiara el archivo
-                    $dest  = '/var/www/html/lcminedatalabs/absorcion'.'/ '; 
-                    $desti = rtrim($dest).$archivo;                        
-                    copy($_FILES['excel']['tmp_name'],$desti);
-                    $archivo_exis = $mysqli->query("SELECT folio FROM arg_ordenes_csv WHERE folio = '".$archivo."'") or die(mysqli_error($mysqli));             
-                    $archivo_exist = $archivo_exis->fetch_assoc();
-                    $archivo_ex = $archivo_exist['folio'];                   
-                    if($archivo_ex == $archivo){
-                        mysqli_multi_query ($mysqli, "UPDATE arg_ordenes_csv SET archivo_csv = '".$archivo."' WHERE folio = '".$archivo."'") OR DIE (mysqli_error($mysqli));
-                        
-                        echo "<script> ver_csv_quebr('$archivo');
-                        $('#progress_modal').modal('show');
-                        </script>";
-                    }              
-                    else{
-                        echo "<script> error_csv('$archivo');</script>";
-                    }
+                        ///mysqli_multi_query ($mysqli, "CALL arg_prc_ordenPulverizado(".$trn_id.", ".$trn_id_rel.", ".$peso.", ".$peso_malla.", ".$porc_que.", ".$u_id.",".$final.", '".$coment."')") OR DIE (mysqli_error($mysqli)); 
                     $action = '';
-                }
+                    }
+                    if ($action_quebr == "upload_quebr") 
+                    {       
+                        $archivo = $_FILES['excel']['name']; //captura el nombre del archivo
+                        $archivo = strtoupper($archivo);
+                        $tipo  = $_FILES['excel']['type'];
+                        //$dest  = '/var/www/html/dgopruebas/absorcion'.'/ '; //lugar donde se copiara el archivo
+                        $dest  = dirname(__DIR__).'\\absorcion'.'\\ '; //lugar donde se copiara el archivo
+                        $desti = rtrim($dest).$archivo;                        
+                        copy($_FILES['excel']['tmp_name'],$desti);
+                        $archivo_exis = $mysqli->query("SELECT folio FROM arg_ordenes_csv WHERE folio = '".$archivo."'") or die(mysqli_error($mysqli));             
+                        $archivo_exist = $archivo_exis->fetch_assoc();
+                        $archivo_ex = $archivo_exist['folio'];                   
+                        if($archivo_ex == $archivo){
+                            mysqli_multi_query ($mysqli, "UPDATE arg_ordenes_csv SET archivo_csv = '".$archivo."' WHERE folio = '".$archivo."'") OR DIE (mysqli_error($mysqli));
+                            
+                            echo "<script> ver_csv_quebr('$archivo');
+                            $('#progress_modal').modal('show');
+                            </script>";
+                        }              
+                        else{
+                            echo "<script> error_csv('$archivo');</script>";
+                        }
+                        $action = '';
+                    }
+              }
                 ?>
               <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="actualizar_met();" data-dismiss="modal">Cerrar</button>
