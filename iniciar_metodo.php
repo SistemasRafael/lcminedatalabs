@@ -1635,7 +1635,7 @@ if (isset($trn_id)){
                                          <td style='display:none;'> <input type='input' id='trnid_rel_met".$con."' value='".$trnid_rel."'/>".$muestra_folio."</td>                             
                                          <td>".$muestra_folio."</td>
                                          <td>".$muestra_control."</td>
-                                         <td> <input type='number' id='peso_met".$con."' value='".$peso_actual."' class='form-control'/> </td>
+                                         <td> <input type='number' id='peso_met".$con."' value='' class='form-control'/> </td>
                                          <td> <button type='button'class='btn btn-primary' id='boton_save' onclick='met_peso_guardar(".$trnid_batch.",".$trnid_rel.",".$metodo_id.",".$fase_id.",".$etapa_id.",".$con.",".$unidad_id.")' >
                                                     <span class='fa fa-cloud fa-1x'></span>
                                               </button>

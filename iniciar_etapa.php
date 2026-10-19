@@ -214,9 +214,9 @@
                                                 <td style='display:none;'> <input type='input' id='trn_batch_q".$con."' value='".$trn_id_batch."'/></td>  
                                                 <td style='display:none;'> <input type='input' id='trn_batch_relq".$con."' value='".$trn_id_rel."'/>".$muestra."</td>                             
                                                 <td> <input type='input' name='trn_rel_que".$con."' class='form-control' id='trn_rel_que".$con."' value='".$muestra."' disabled></td> 
-                                                <td> <input type='number' name='peso_que".$con."' id='peso_que".$con."' value='".$peso_mu_que."' class='form-control' onchange='calcula_porc(".$con.")' /> </td>
-                                                <td> <input type='number' name='peso_malla_que".$con."' id='peso_malla_que".$con."' value='".$peso_malla_que."' class='form-control' onchange='calcula_porc(".$con.")' /> </td>
-                                                <td> <input type='number' name='porc_que".$con."' id='porc_que".$con."' value='".$porc_que."' class='form-control' disabled/> </td>
+                                                <td> <input type='number' name='peso_que".$con."' id='peso_que".$con."' value='' class='form-control' onchange='calcula_porc(".$con.")' /> </td>
+                                                <td> <input type='number' name='peso_malla_que".$con."' id='peso_malla_que".$con."' value='' class='form-control' onchange='calcula_porc(".$con.")' /> </td>
+                                                <td> <input type='number' name='porc_que".$con."' id='porc_que".$con."' value='' class='form-control' disabled/> </td>
                                                 <td> <input type='text' name='comentario_que".$con."' id='comentario_que".$con."' value='".$coment_que."' class='form-control' disabled /></td>
                                                 <td> <button type='button'class='btn btn-primary' id='boton_save_quebrado' onclick='quebrado_guardar(".$trn_id_batch.", ".$trn_id_rel.", ".$con.")' >
                                                         <span class='fa fa-cloud fa-1x'></span>
@@ -490,8 +490,8 @@
                                 <td style='display:none;'> <input type='input' id='trn_batch_pul".$con."' value='".$trn_id_batch."'/></td>  
                                 <td style='display:none;'> <input type='input' id='trn_rel_pul".$con."' value='".$trn_id_rel."'/>".$res_muestras['muestra']."</td>                             
                                 <td> <input type='input' name='trn_rel_pul".$con."' class='form-control' id='trn_rel_pul".$con."' value='".$muestra."' disabled></td> 
-                                <td> <input type='number' name='peso_pul".$con."' step='.01' id='peso_pul".$con."' class='form-control' value='".$peso_mu_pulv."' onchange='calcula_porc_pulv(".$con.")' /> </td>
-                                <td> <input type='number' name='peso_malla_pul".$con."' id='peso_malla_pul".$con."' class='form-control' value='".$peso_malla_pulv."' onchange='calcula_porc_pulv(".$con.")' /> </td>
+                                <td> <input type='number' name='peso_pul".$con."' step='.01' id='peso_pul".$con."' class='form-control' value='' onchange='calcula_porc_pulv(".$con.")' /> </td>
+                                <td> <input type='number' name='peso_malla_pul".$con."' id='peso_malla_pul".$con."' class='form-control' value='' onchange='calcula_porc_pulv(".$con.")' /> </td>
                                 <td> <input type='number' name='porc_pul".$con."' id='porc_pul".$con."' class='form-control' value='".$porc_pulv."' disabled/> </td>
                                 <td> <input type='text' name='comentario_pul".$con."' id='comentario_pul".$con."' class='form-control' value='".$coment."' disabled /></td>
                                 <td> <button type='button'class='btn btn-primary' id='boton_save_pulverizado' onclick='pulverizado_guardar(".$trn_id_batch.", ".$trn_id_rel.", ".$con.")' >

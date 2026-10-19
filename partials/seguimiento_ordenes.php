@@ -1222,94 +1222,98 @@
             
     function met_peso_guardar(trnid_batch, trnid_rel, metodo, fase, etapa, contador, unidad)
     {
-         var contador = contador;   
-         var warn_met = 0;
-         var trnid_orden   = trnid_batch;
-         var trnid_muestra = trnid_rel;
-         var metodo_id = metodo;
-         var fase = fase;
-         var etapa = etapa;
-         var unidad = unidad;
-         var table = document.getElementById("tabla_pesaje_met");
-         var total_rows_m = parseInt(table.rows.length)-3;
-         //alert(contador);
-         //$('#guardando_modal_peso').modal('show');
-         //alert(total_rows_m);
-         if (total_rows_m == contador){
-             var fin_met = 1;
-         }
-         else{
-             var fin_met = 0;
-         }
-         //Validar que el porcentajes sean mayores a 70   
-         cantidad_met    = "peso_met"+contador;
-         cantidad_metodo = document.getElementById(cantidad_met).value;
-         //alert(cantidad_metodo);
-         
-         if(metodo_id == 3) {
-             if(cantidad_metodo == 0 || cantidad_metodo == '' || cantidad_metodo == 0.00)
-                {
-                    warn_met = 1;
-                    //alert('El valor debe ser diferente de cero:');
-                    meg_error = 'El valor debe ser diferente de cero. Por favor reintente';
-                }
-                
-             if(cantidad_metodo < 15 || cantidad_metodo > 40)
-                {
-                    warn_met = 1;
-                   // alert('El peso está fuera de rango. Por favor reintente');
-                    meg_error = 'El peso está fuera de rango. Por favor reintente';
-                }
-          }
-          
-         if (metodo_id == 6) {
-             if(cantidad_metodo == 0 || cantidad_metodo == '' || cantidad_metodo == 0.00)
-                {
-                    warn_met = 1;
-                    //alert('El valor debe ser diferente de cero:');
-                    meg_error = 'El valor debe ser diferente de cero. Por favor reintente';
-                }
-             
-              if(cantidad_metodo < 1.900 || cantidad_metodo > 2.100)
-                {
-                    warn_met = 1;
-                    //alert('El peso está fuera de rango. Por favor reintente');
-                     meg_error = 'El peso está fuera de rango. Por favor reintente';
-                }
-          
-          }
-          
-         if (warn_met == 1){
+        var contador = contador;   
+        var warn_met = 0;
+        var trnid_orden   = trnid_batch;
+        var trnid_muestra = trnid_rel;
+        var metodo_id = metodo;
+        var fase = fase;
+        var etapa = etapa;
+        var unidad = unidad;
+        var table = document.getElementById("tabla_pesaje_met");
+        var total_rows_m = parseInt(table.rows.length) - 3;
+
+        if (total_rows_m == contador) {
+            var fin_met = 1;
+        }
+        else {
+            var fin_met = 0;
+        }
+        
+        cantidad_met    = "peso_met"+contador;
+        cantidad_metodo = document.getElementById(cantidad_met).value;
+
+        if(metodo_id == 3) {
+            if(cantidad_metodo == 0 || cantidad_metodo == '' || cantidad_metodo == 0.00)
+            {
+                warn_met = 1;
+                meg_error = 'El valor debe ser diferente de cero. Por favor reintente';
+            }
+            
+            if(cantidad_metodo < 15 || cantidad_metodo > 40)
+            {
+                warn_met = 1;
+                meg_error = 'El peso está fuera de rango. Por favor reintente';
+            }
+        }
+
+        if (metodo_id == 6) {
+            if(cantidad_metodo == 0 || cantidad_metodo == '' || cantidad_metodo == 0.00)
+            {
+                warn_met = 1;
+                meg_error = 'El valor debe ser diferente de cero. Por favor reintente';
+            }
+            
+            if(cantidad_metodo < 1.900 || cantidad_metodo > 2.100)
+            {
+                warn_met = 1;
+                meg_error = 'El peso está fuera de rango. Por favor reintente';
+            }
+        }
+
+        if (metodo_id == 36 || 
+            metodo_id == 37 ||
+            metodo_id == 38)
+        {
+            if(cantidad_metodo == 0 || cantidad_metodo == '' || cantidad_metodo == 0.00)
+            {
+                warn_met = 1;
+                meg_error = 'El valor debe ser diferente de cero. Por favor reintente';
+            }
+            
+            if(cantidad_metodo < 20 || cantidad_metodo > 30)
+            {
+                warn_met = 1;
+                meg_error = 'El peso está fuera de rango. Por favor reintente';
+            }
+        }
+        
+        if (warn_met == 1){
             alert(meg_error);
-         } 
-         else {
+        } 
+        else {
             cantidad_met = "peso_met"+contador;            
-            cantidad_metodo = document.getElementById(cantidad_met).value;   
-            //$('#boton_save').html('<div class="loading"><img src="images/upload.gif" alt="loading" /></div>');   
-            //$('#peso_met1') = '<img src="images/upload.gif" alt="loading" />';
-            //alert(trnid_orden);alert(trnid_muestra);alert(metodo_id);  alert(fase);alert(etapa);  alert(cantidad_metodo);  
+            cantidad_metodo = document.getElementById(cantidad_met).value;
             $('#boton_save').html('<div class="loading"><i class="fa fa-spinner fa-spin fa-1x fa-fw"></i><span class="sr-only">Loading...</span></div>');
-            //alert(fin_met); 
-                    $.ajax({
-                		url: 'guardar_met_peso.php' ,
-                		type: 'POST' ,
-                		dataType: 'html',
-                		data: {trnid_orden:trnid_orden, trnid_muestra:trnid_muestra, metodo_id:metodo_id, fase:fase, etapa:etapa, cantidad_metodo:cantidad_metodo, fin_met:fin_met, unidad:unidad},
-                    }).done(function(respuesta){
-                        if(respuesta == 'Ha finalizado la etapa.')//alert(respuesta);  
-                        {
-                            alert(respuesta);
-                        }
-                        //else
-                        //{
-                            $('#metodo_modal').modal('show');
-                            $("#datos_metodo").html(respuesta); 
-                            $('#metodo_modal').on('shown.bs.modal', function (e) {
-                                $(this).find('#peso_met1').focus();
-                            })                
-                            $('#metodo_modal').modal('show').trigger('shown');
-                })
-          }
+            
+            $.ajax({
+                url: 'guardar_met_peso.php' ,
+                type: 'POST' ,
+                dataType: 'html',
+                data: {trnid_orden:trnid_orden, trnid_muestra:trnid_muestra, metodo_id:metodo_id, fase:fase, etapa:etapa, cantidad_metodo:cantidad_metodo, fin_met:fin_met, unidad:unidad},
+            }).done(function(respuesta) {
+                if(respuesta == 'Ha finalizado la etapa.')
+                {
+                    alert(respuesta);
+                }
+                $('#metodo_modal').modal('show');
+                $("#datos_metodo").html(respuesta); 
+                $('#metodo_modal').on('shown.bs.modal', function (e) {
+                    $(this).find('#peso_met1').focus();
+                })                
+                $('#metodo_modal').modal('show').trigger('shown');
+            });
+        }
     }
     
     function met_peso_guardarHumCh(trnid_batch, trnid_rel, metodo, fase, etapa, contador, unidad)
@@ -1481,37 +1485,31 @@
         }
         
         //Guardar centrifugado cianuro      
-    function centrifugado_guardar(trn_id_ce, metodo_ce)
-        {               
-            var trn_id_cen    = trn_id_ce;
-            var metodo_cen    = metodo_ce;
-            var hora_fin_cen  = document.getElementById("hora_final_cen").value;
-            var hora_ini_ce = '';
-            var fase_id_agi = 7;
-            var etapa_id_agi = 18;
-            
-            if (hora_fin_cen == ''){
-                alert('La hora no puede ser vacio');
-            }
-          // alert(fase_id_agi);
-           else{
-               
-                    $('#boton_save_fun').html('<div class="loading"><i class="fa fa-spinner fa-spin fa-1x fa-fw"></i><span class="sr-only">Loading...</span></div>'); 
-                    $.ajax({
-                    		url: 'guardar_centrifugado.php' ,
-                    		type: 'POST' ,
-                    		dataType: 'html',
-                    		data: {trn_id_tem:trn_id_cen, metodo_tem:metodo_cen, hora_ini:hora_ini_ce, hora_fin:hora_fin_cen, fase_id_agi:fase_id_agi, etapa_id_agi:etapa_id_agi},
-                    	})
-                    	.done(function(respuesta){
-                    		///$("#placas_dat").html(respuesta);  
-                               alert(respuesta);
-                               $('#boton_save_fun').html('<div class="loading" disabled><i class="fa fa-cloud fa-1x"></i><span class="sr-only">Loading...</span></div>'); 
-                      })
-                     // actualizar(unidad_id);
-               }
-           // }
+    function centrifugado_guardar(trn_id_ce, metodo_ce) {               
+        var trn_id_cen    = trn_id_ce;
+        var metodo_cen    = metodo_ce;
+        var hora_fin_cen  = document.getElementById("hora_final_cen").value;
+        var hora_ini_ce = '';
+        var fase_id_agi = 7;
+        var etapa_id_agi = 18;
+        
+        if (hora_fin_cen == '') {
+            alert('La hora no puede ser vacio');
         }
+        else {
+            $('#boton_save_fun').html('<div class="loading"><i class="fa fa-spinner fa-spin fa-1x fa-fw"></i><span class="sr-only">Loading...</span></div>'); 
+            $.ajax({
+                url: 'guardar_centrifugado.php' ,
+                type: 'POST' ,
+                dataType: 'html',
+                data: {trn_id_tem:trn_id_cen, metodo_tem:metodo_cen, hora_ini:hora_ini_ce, hora_fin:hora_fin_cen, fase_id_agi:fase_id_agi, etapa_id_agi:etapa_id_agi},
+            })
+            .done(function(respuesta) {
+                alert(respuesta);
+                $('#boton_save_fun').html('<div class="loading" disabled><i class="fa fa-cloud fa-1x"></i><span class="sr-only">Loading...</span></div>'); 
+            });
+        }
+    }
         
     //Temperatura guardar cianuro
     function temperatura_guardar_cianuro(trn_id_cian, metodo_cian)
@@ -1529,7 +1527,7 @@
                 else{
                     $('#boton_save_fun').html('<div class="loading"><i class="fa fa-spinner fa-spin fa-1x fa-fw"></i><span class="sr-only">Loading...</span></div>'); 
                     $.ajax({
-                    		url: 'guardar_temperatura_cia.php' ,
+                    		url: 'guardar_temperatura_cia.php',
                     		type: 'POST' ,
                     		dataType: 'html',
                     		data: {trn_id_tem:trn_id_cia, metodo_tem:metodo_cia, cantidad_tem:cantidad_tem_cia },
