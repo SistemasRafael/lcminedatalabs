@@ -54,14 +54,13 @@
         document.getElementById("mina").value = unidad;
 
         $.ajax({
-            url: 'iniciar_batch.php' ,
+            url: 'iniciar_batch.php',
             type: 'POST' ,
             dataType: 'html',
-            data: {trn_id: trn_id},
+            data: { trn_id: trn_id },
         })
-        .done(function(respuesta){
-            ///$("#placas_dat").html(respuesta);                      
-                alert(respuesta);
+        .done(function(respuesta){             
+            alert(respuesta);
         })
         actualizar_prep(unidad_id);
     }
@@ -2428,62 +2427,64 @@
               <div class="modal-body"  style="font-size:4px;" class="col-md-12 col-lg-12" id="datos_importar">
               </div>
               <?php 
-              extract($_POST);        
-              if ($action == "upload") //si action tiene como valor UPLOAD haga algo (el value de este hidden es es UPLOAD iniciado desde el value
-                {
-                //cargamos el archivo al servidor con el mismo nombre(solo le agregue el sufijo bak_)            
-                    $archivo = $_FILES['excel']['name']; //captura el nombre del archivo
-                    $archivo = strtoupper($archivo);
-                    $tipo  = $_FILES['excel']['type']; //captura el tipo de archivo (2003 o 2007)
-                    ///$dest  = 'c:\\xampp\\htdocs\\__pro\\argonaut\\VinculosKpi'.'\\ '; //lugar donde se copiara el archivo
-                    $dest  = '/var/www/html/lcminedatalabs/absorcion'.'/ '; 
-                    //$dest  = '\\absorcion'.'\\ '; //lugar donde se copiara el archivo
-                   // $dest  = '/var/www/html/dgopruebas/absorcion'.'/ '; //lugar donde se copiara el archivo
+              extract($_POST);    
+              if (isset($action)) {    
+                if ($action == "upload") //si action tiene como valor UPLOAD haga algo (el value de este hidden es es UPLOAD iniciado desde el value
+                    {
+                    //cargamos el archivo al servidor con el mismo nombre(solo le agregue el sufijo bak_)            
+                        $archivo = $_FILES['excel']['name']; //captura el nombre del archivo
+                        $archivo = strtoupper($archivo);
+                        $tipo  = $_FILES['excel']['type']; //captura el tipo de archivo (2003 o 2007)
+                        ///$dest  = 'c:\\xampp\\htdocs\\__pro\\argonaut\\VinculosKpi'.'\\ '; //lugar donde se copiara el archivo
+                        $dest  = '/var/www/html/lcminedatalabs/absorcion'.'/ '; 
+                        //$dest  = '\\absorcion'.'\\ '; //lugar donde se copiara el archivo
                     // $dest  = '/var/www/html/dgopruebas/absorcion'.'/ '; //lugar donde se copiara el archivo
-                     $desti = rtrim($dest).$archivo;                        
-                    copy($_FILES['excel']['tmp_name'],$desti);
-                   /// echo $archivo_corto;
-                    $archivo_exis = $mysqli->query("SELECT folio FROM arg_ordenes_csv WHERE folio = '".$archivo."'") or die(mysqli_error($mysqli));             
-                    $archivo_exist = $archivo_exis->fetch_assoc();
-                    $archivo_ex = $archivo_exist['folio'];                   
-                    if($archivo_ex == $archivo){
-                        mysqli_multi_query ($mysqli, "UPDATE arg_ordenes_csv SET archivo_csv = '".$archivo."' WHERE folio = '".$archivo."'") OR DIE (mysqli_error($mysqli));
+                        // $dest  = '/var/www/html/dgopruebas/absorcion'.'/ '; //lugar donde se copiara el archivo
+                        $dest  = dirname(__DIR__).'\\absorcion'.'\\ '; //lugar donde se copiara el archivo
+                        $desti = rtrim($dest).$archivo;                   
+                        copy($_FILES['excel']['tmp_name'],$desti);
+                        $archivo_exis = $mysqli->query("SELECT folio FROM arg_ordenes_csv WHERE folio = '".$archivo."'") or die(mysqli_error($mysqli));             
+                        $archivo_exist = $archivo_exis->fetch_assoc();
+                        $archivo_ex = $archivo_exist['folio'];                   
+                        if($archivo_ex == $archivo){
+                            mysqli_multi_query ($mysqli, "UPDATE arg_ordenes_csv SET archivo_csv = '".$archivo."' WHERE folio = '".$archivo."'") OR DIE (mysqli_error($mysqli));
+                            
+                            echo "<script> ver_csv('$archivo');
+                            $('#progress_modal').modal('show');
+                            </script>";
+                        }              
+                        else{
+                            echo "<script> error_csv('$archivo');</script>";
+                        }
                         
-                        echo "<script> ver_csv('$archivo');
-                        $('#progress_modal').modal('show');
-                        </script>";
-                    }              
-                    else{
-                        echo "<script> error_csv('$archivo');</script>";
-                    }
-                    
-                    ///mysqli_multi_query ($mysqli, "CALL arg_prc_ordenPulverizado(".$trn_id.", ".$trn_id_rel.", ".$peso.", ".$peso_malla.", ".$porc_que.", ".$u_id.",".$final.", '".$coment."')") OR DIE (mysqli_error($mysqli)); 
-                   $action = '';
-                }
-                if ($action_quebr == "upload_quebr") 
-                {       
-                    $archivo = $_FILES['excel']['name']; //captura el nombre del archivo
-                    $archivo = strtoupper($archivo);
-                    $tipo  = $_FILES['excel']['type'];
-                    //$dest  = '/var/www/html/dgopruebas/absorcion'.'/ '; //lugar donde se copiara el archivo
-                    $dest  = '/var/www/html/lcminedatalabs/absorcion'.'/ '; 
-                    $desti = rtrim($dest).$archivo;                        
-                    copy($_FILES['excel']['tmp_name'],$desti);
-                    $archivo_exis = $mysqli->query("SELECT folio FROM arg_ordenes_csv WHERE folio = '".$archivo."'") or die(mysqli_error($mysqli));             
-                    $archivo_exist = $archivo_exis->fetch_assoc();
-                    $archivo_ex = $archivo_exist['folio'];                   
-                    if($archivo_ex == $archivo){
-                        mysqli_multi_query ($mysqli, "UPDATE arg_ordenes_csv SET archivo_csv = '".$archivo."' WHERE folio = '".$archivo."'") OR DIE (mysqli_error($mysqli));
-                        
-                        echo "<script> ver_csv_quebr('$archivo');
-                        $('#progress_modal').modal('show');
-                        </script>";
-                    }              
-                    else{
-                        echo "<script> error_csv('$archivo');</script>";
-                    }
+                        ///mysqli_multi_query ($mysqli, "CALL arg_prc_ordenPulverizado(".$trn_id.", ".$trn_id_rel.", ".$peso.", ".$peso_malla.", ".$porc_que.", ".$u_id.",".$final.", '".$coment."')") OR DIE (mysqli_error($mysqli)); 
                     $action = '';
-                }
+                    }
+                    if ($action_quebr == "upload_quebr") 
+                    {       
+                        $archivo = $_FILES['excel']['name']; //captura el nombre del archivo
+                        $archivo = strtoupper($archivo);
+                        $tipo  = $_FILES['excel']['type'];
+                        //$dest  = '/var/www/html/dgopruebas/absorcion'.'/ '; //lugar donde se copiara el archivo
+                        $dest  = dirname(__DIR__).'\\absorcion'.'\\ '; //lugar donde se copiara el archivo
+                        $desti = rtrim($dest).$archivo;                        
+                        copy($_FILES['excel']['tmp_name'],$desti);
+                        $archivo_exis = $mysqli->query("SELECT folio FROM arg_ordenes_csv WHERE folio = '".$archivo."'") or die(mysqli_error($mysqli));             
+                        $archivo_exist = $archivo_exis->fetch_assoc();
+                        $archivo_ex = $archivo_exist['folio'];                   
+                        if($archivo_ex == $archivo){
+                            mysqli_multi_query ($mysqli, "UPDATE arg_ordenes_csv SET archivo_csv = '".$archivo."' WHERE folio = '".$archivo."'") OR DIE (mysqli_error($mysqli));
+                            
+                            echo "<script> ver_csv_quebr('$archivo');
+                            $('#progress_modal').modal('show');
+                            </script>";
+                        }              
+                        else{
+                            echo "<script> error_csv('$archivo');</script>";
+                        }
+                        $action = '';
+                    }
+              }
                 ?>
               <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="actualizar_met();" data-dismiss="modal">Cerrar</button>
@@ -2598,32 +2599,33 @@ if (isset($_GET['unidad_id'])){
         $list_Baches_id .= $row["trn_id_batch"];
         $listDatosOrdenDetalle[] = $row;
     }
+    
+    if (!empty($list_Baches_id)){
+        $buscar_etapas_acceso = $mysqli->query("SELECT 
+                                                    t2.trn_id_rel, 
+                                                    t2.etapa
+                                                FROM(
+                                                    SELECT 
+                                                        bd.trn_id_rel,
+                                                        CASE WHEN om.trn_id_rel IS NOT NULL THEN 15 ELSE IFNULL(bd.etapa_id,0) END AS etapa
+                                                    FROM (    
+                                                        SELECT t.trn_id_rel, 
+                                                                t.etapa_id
+                                                        FROM (
+                                                            SELECT trn_id_rel, 
+                                                                    etapa_id, 
+                                                                    ROW_NUMBER() OVER (PARTITION BY trn_id_rel ORDER BY fecha DESC) AS rn
+                                                            FROM arg_ordenes_bitacora_detalle
+                                                            WHERE trn_id_rel IN ($list_Baches_id)
+                                                        ) AS t 
+                                                        WHERE rn = 1
+                                                    ) AS bd
+                                                    LEFT JOIN arg_ordenes_metodos AS om ON om.trn_id_rel = bd.trn_id_rel AND om.metodo_id = 4 AND om.terminado = 0
+                                                ) AS t2 
+                                                INNER JOIN perfiles_privilegios AS PP ON u_id = 6 AND directiva_id = 3 AND etapa_id = t2.etapa AND activo = 1
+                                                GROUP BY t2.trn_id_rel, t2.etapa, PP.nombre;") or die(mysqli_error($mysqli));
 
-    $buscar_etapas_acceso = $mysqli->query("SELECT 
-                                            t2.trn_id_rel, 
-                                            t2.etapa
-                                        FROM(
-                                            SELECT 
-                                                bd.trn_id_rel,
-                                                CASE WHEN om.trn_id_rel IS NOT NULL THEN 15 ELSE IFNULL(bd.etapa_id,0) END AS etapa
-                                            FROM (    
-                                                SELECT t.trn_id_rel, 
-                                                        t.etapa_id
-                                                FROM (
-                                                    SELECT trn_id_rel, 
-                                                            etapa_id, 
-                                                            ROW_NUMBER() OVER (PARTITION BY trn_id_rel ORDER BY fecha DESC) AS rn
-                                                    FROM arg_ordenes_bitacora_detalle
-                                                    WHERE trn_id_rel IN ($list_Baches_id)
-                                                ) AS t 
-                                                WHERE rn = 1
-                                            ) AS bd
-                                            LEFT JOIN arg_ordenes_metodos AS om ON om.trn_id_rel = bd.trn_id_rel AND om.metodo_id = 4 AND om.terminado = 0
-                                        ) AS t2 
-                                        INNER JOIN perfiles_privilegios AS PP ON u_id = 6 AND directiva_id = 3 AND etapa_id = t2.etapa AND activo = 1
-                                        GROUP BY t2.trn_id_rel, t2.etapa, PP.nombre;") or die(mysqli_error($mysqli));
-
-    $metodos_lista = $mysqli->query("SELECT  
+        $metodos_lista = $mysqli->query("SELECT  
                                         m.nombre
                                         ,aom.metodo_id
                                         ,m.color
@@ -2667,7 +2669,77 @@ if (isset($_GET['unidad_id'])){
                                         ) AS finalResult
                                     ) AS EXIST ON EXIST.trn_id_rel = aom.trn_id_rel AND EXIST.metodo_id = aom.metodo_id AND EXIST.rn = 1
                                     WHERE m.metodo_id <> 4 AND aom.trn_id_rel IN ($list_Baches_id)") or die(mysqli_error($mysqli));
-    
+    }
+    else {
+        $buscar_etapas_acceso = $mysqli->query("SELECT 
+                                                    t2.trn_id_rel, 
+                                                    t2.etapa
+                                                FROM(
+                                                    SELECT 
+                                                        bd.trn_id_rel,
+                                                        CASE WHEN om.trn_id_rel IS NOT NULL THEN 15 ELSE IFNULL(bd.etapa_id,0) END AS etapa
+                                                    FROM (    
+                                                        SELECT t.trn_id_rel, 
+                                                                t.etapa_id
+                                                        FROM (
+                                                            SELECT trn_id_rel, 
+                                                                    etapa_id, 
+                                                                    ROW_NUMBER() OVER (PARTITION BY trn_id_rel ORDER BY fecha DESC) AS rn
+                                                            FROM arg_ordenes_bitacora_detalle
+                                                        ) AS t 
+                                                        WHERE rn = 1
+                                                    ) AS bd
+                                                    LEFT JOIN arg_ordenes_metodos AS om ON om.trn_id_rel = bd.trn_id_rel AND om.metodo_id = 4 AND om.terminado = 0
+                                                ) AS t2 
+                                                INNER JOIN perfiles_privilegios AS PP ON u_id = 6 AND directiva_id = 3 AND etapa_id = t2.etapa AND activo = 1
+                                                GROUP BY t2.trn_id_rel, t2.etapa, PP.nombre;") or die(mysqli_error($mysqli));
+        
+        $metodos_lista = $mysqli->query("SELECT  
+                                        m.nombre
+                                        ,aom.metodo_id
+                                        ,m.color
+                                        ,aom.trn_id_rel AS trn_id_batch
+                                        ,buscar_fase(aom.trn_id_rel, aom.metodo_id) AS fase_id
+                                        ,buscar_etapa(aom.trn_id_rel, aom.metodo_id) AS etapa_id
+                                        ,(EXIST.metodo_id IS NOT NULL) AS boton_acceso
+                                        ,buscar_etapa_nombre(aom.trn_id_rel, aom.metodo_id) AS etapa
+                                        ,buscar_etapa_img(aom.trn_id_rel, aom.metodo_id) AS etapa_img
+                                    FROM arg_ordenes_metodos aom 
+                                    INNER JOIN arg_metodos m ON m.metodo_id = aom.metodo_id
+                                    LEFT JOIN (
+                                        SELECT 
+                                            finalResult.trn_id_rel,
+                                            finalResult.metodo_id,
+                                            ROW_NUMBER() OVER (PARTITION BY finalResult.trn_id_rel, finalResult.metodo_id ORDER BY finalResult.fecha DESC) AS rn,
+                                            finalResult.etapa
+                                        FROM (
+                                            SELECT 
+                                                t2.trn_id_rel, 
+                                                t2.metodo_id,
+                                                t2.fecha,
+                                                t2.etapa
+                                            FROM(
+                                                SELECT 
+                                                    bd.trn_id_rel,
+                                                    bd.metodo_id,
+                                                    bd.fecha,
+                                                    CASE WHEN om.trn_id_rel IS NOT NULL THEN 15 ELSE IFNULL(bd.etapa_id,0) END AS etapa
+                                                FROM (
+                                                    SELECT trn_id_rel,
+                                                            metodo_id,
+                                                            etapa_id,
+                                                            fecha
+                                                    FROM arg_ordenes_bitacora_detalle
+                                                ) AS bd
+                                                LEFT JOIN arg_ordenes_metodos AS om ON om.trn_id_rel = bd.trn_id_rel AND om.metodo_id = 4 AND om.terminado = 0
+                                            ) AS t2 
+                                            INNER JOIN perfiles_privilegios AS PP ON u_id = 6 AND directiva_id = 3 AND etapa_id = t2.etapa AND activo = 1
+                                            GROUP BY t2.trn_id_rel, t2.metodo_id, t2.etapa, t2.fecha
+                                        ) AS finalResult
+                                    ) AS EXIST ON EXIST.trn_id_rel = aom.trn_id_rel AND EXIST.metodo_id = aom.metodo_id AND EXIST.rn = 1
+                                    WHERE m.metodo_id <> 4") or die(mysqli_error($mysqli));
+    }
+
     $Metodoslista = [];
     while ($row = $metodos_lista->fetch_assoc()) {
         $Metodoslista[] = $row;

@@ -116,7 +116,7 @@
               if ($_SESSION['unidad_acc'] == '0') {
                 $datos_at = $mysqli->query("SELECT serie, unidad_id, nombre FROM arg_empr_unidades") or die(mysqli_error($mysqli));
                 while ($row = $datos_at->fetch_assoc()) { ?> 
-                  <a class="dropdown-item" href="app.php?unidad_id=<?php  echo $row['unidad_id']; ?>"><? echo $row['nombre']; ?></a>
+                  <a class="dropdown-item" href="app.php?unidad_id=<?php  echo $row['unidad_id']; ?>"><?php echo $row['nombre']; ?></a>
                 <?php } ?>  
               <?php } ?>
               <?php
