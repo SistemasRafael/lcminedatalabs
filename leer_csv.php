@@ -1,5 +1,5 @@
 <?php
- //Configuración central de sistema.
+ //Configuraciï¿½n central de sistema.
 include "connections/config.php";
 /*include '\xampp\htdocs\__pro\argonaut\common\phpExcel\Classes\PHPExcel.php';
 include '\xampp\htdocs\__pro\argonaut\common\phpExcel\Classes\IOFactory.php';*/
@@ -13,20 +13,20 @@ $desti = rtrim($dest).strtoupper($archivo);
 $u_id_lee = $_SESSION['u_id'];
 
 $trn_id_bat = $mysqli->query("SELECT trn_id_rel, metodo_id, (CASE WHEN folio like '%RE%' THEN 1 ELSE 0 END) AS reensaye 
-                              FROM arg_ordenes_csv WHERE folio = '".$archivo."'") or die(mysqli_error());
+                              FROM arg_ordenes_csv WHERE folio = '".$archivo."'") or die(mysqli_error($mysqli));
 $trn_id_batc = $trn_id_bat->fetch_assoc();
 $trn_id_batch = $trn_id_batc['trn_id_rel'];
 $met_id_b = $trn_id_batc['metodo_id'];
 $reensaye = $trn_id_batc['reensaye'];
 
-$trn_id_m = $mysqli->query("SELECT IFNULL(MAX(trn_id),0) AS trn_id FROM arg_ordenes_csv_detalle") or die(mysqli_error());
+$trn_id_m = $mysqli->query("SELECT IFNULL(MAX(trn_id),0) AS trn_id FROM arg_ordenes_csv_detalle") or die(mysqli_error($mysqli));
 $trn_id_ma = $trn_id_m->fetch_assoc();
 $trn_id_max = $trn_id_ma['trn_id']+1;
 
     $documento = IOFactory::load($desti);
     $hojaActual = $documento->getSheet(0);
     
-    $numeroMayorDeFila = 100;//$hojaActual->getHighestRow(); // Numérico
+    $numeroMayorDeFila = 100;//$hojaActual->getHighestRow(); // Numï¿½rico
     if( $met_id_b == 14 or $met_id_b == 15 or $met_id_b == 16){
        for ($indiceFila = 2; $indiceFila <= $numeroMayorDeFila; $indiceFila++) {
             $coordenadas_b = "A".$indiceFila;
@@ -48,7 +48,7 @@ $trn_id_max = $trn_id_ma['trn_id']+1;
             }
                
         }
-         $import = $mysqli->query("SELECT COUNT(*) AS existe FROM arg_ordenes_csv_detalle WHERE trn_id_rel = ".$trn_id_batch." AND metodo_id = ".$met_id_b) or die(mysqli_error());
+         $import = $mysqli->query("SELECT COUNT(*) AS existe FROM arg_ordenes_csv_detalle WHERE trn_id_rel = ".$trn_id_batch." AND metodo_id = ".$met_id_b) or die(mysqli_error($mysqli));
          $importac = $import->fetch_assoc();
          $archivo_importado = $importac['existe'];
                
@@ -76,13 +76,14 @@ $trn_id_max = $trn_id_ma['trn_id']+1;
                $query = "INSERT INTO arg_ordenes_csv_detalle (trn_id, trn_id_rel, folio, metodo_id, valor1, valor2 ) ".
                                                   " VALUES(".$trn_id_max.",".$trn_id_batch.", '".$folio."', ".$met_id_b.",".$abs.",".$abs.")";
             //echo $query;
+            die($query);
                $mysqli->query($query);      
             }
             //echo $abs."<br/>";
                   
         }
         
-        $import = $mysqli->query("SELECT COUNT(*) AS existe FROM arg_ordenes_csv_detalle WHERE trn_id_rel = ".$trn_id_batch." AND metodo_id = ".$met_id_b) or die(mysqli_error());
+        $import = $mysqli->query("SELECT COUNT(*) AS existe FROM arg_ordenes_csv_detalle WHERE trn_id_rel = ".$trn_id_batch." AND metodo_id = ".$met_id_b) or die(mysqli_error($mysqli));
         $importac = $import->fetch_assoc();
         $archivo_importado = $importac['existe'];
        
